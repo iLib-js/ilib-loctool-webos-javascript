@@ -19,5 +19,5 @@
 
 module.exports.files = [
     "testJavaScriptFile.js",
-    //"testJavaScriptFileType.js"
+    "testJavaScriptFileType.js"
 ];
