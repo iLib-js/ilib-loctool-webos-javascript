@@ -229,7 +229,7 @@ JavaScriptFile.prototype.parse = function(data) {
                 pathName: this.pathName,
                 state: "new",
                 comment: comment,
-                datatype: this.type.datatype,
+                datatype: "javascript",
                 index: this.resourceIndex++
             });
             this.set.add(r);
@@ -272,7 +272,7 @@ JavaScriptFile.prototype.parse = function(data) {
                 pathName: this.pathName,
                 state: "new",
                 comment: comment,
-                datatype: this.type.datatype,
+                datatype: "javascript",
                 index: this.resourceIndex++
             });
             this.set.add(r);
