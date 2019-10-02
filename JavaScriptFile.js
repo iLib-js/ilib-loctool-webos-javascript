@@ -109,6 +109,7 @@ var reGetStringBogusParam = new RegExp(/(^R|\WR)B\.getString(JS)?\s*\([^"'\)]*\)
 
 var reGetString = new RegExp(/(^[R|r]|\W[R|r|])[B|b]\.getString(JS)?\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
 var reGetStringSymbol = new RegExp(/(^\$|\W\$)L?\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
+var reGetStringSymbolKeyValuePattern = new RegExp(/^\$|\W\$L?\s*\(\s*{(key|value)\:\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\,\s*(key|value)\:("((\\"|[^"])*)"|'((\\'|[^'])*)')\}\)/g);
 
 var reGetStringWithId = new RegExp(/(^[R|r]|\W[R|r])[B|b]\.getString(JS)?\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*,\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
 
@@ -228,7 +229,7 @@ JavaScriptFile.prototype.parse = function(data) {
                 pathName: this.pathName,
                 state: "new",
                 comment: comment,
-                datatype: this.type.datatype,
+                datatype: "javascript",
                 index: this.resourceIndex++
             });
             this.set.add(r);
@@ -237,6 +238,49 @@ JavaScriptFile.prototype.parse = function(data) {
             logger.warn("... " + data.substring(result.index, reGetStringSymbol.lastIndex) + " ...");
         }
         result = reGetStringSymbol.exec(data);
+    }
+
+    // In order to parse Enyo/Enact style.    $L({key:'speaker_channel', value:'Channel'})
+    reI18nComment.lastIndex = 0;
+    reGetStringSymbolKeyValuePattern.lastIndex = 0; // just to be safe
+
+    var result = reGetStringSymbolKeyValuePattern.exec(data);
+    while (result && result.length > 1 && result[2]) {
+        // different matches for single and double quotes
+
+        if (result[1] === "key") {
+            match = (result[2][0] === '"') ? result[3] : result[5];
+        } else if (result[7] === "key") {
+            match = (result[8][0] === '"') ? result[9] : result[11];
+        }
+
+        if (match && match.length) {
+            logger.trace("Found string key: " + this.makeKey(match) + ", string: '" + match + "'");
+
+            var last = data.indexOf('\n', reGetStringSymbolKeyValuePattern.lastIndex);
+            last = (last === -1) ? data.length : last;
+            var line = data.substring(reGetStringSymbolKeyValuePattern.lastIndex, last);
+            var commentResult = reI18nComment.exec(line);
+            comment = (commentResult && commentResult.length > 1) ? commentResult[1] : undefined;
+
+            var r = this.API.newResource({
+                project: this.project.getProjectId(),
+                key: JavaScriptFile.unescapeString(match),
+                sourceLocale: this.project.sourceLocale,
+                source: JavaScriptFile.cleanString(match),
+                autoKey: true,
+                pathName: this.pathName,
+                state: "new",
+                comment: comment,
+                datatype: "javascript",
+                index: this.resourceIndex++
+            });
+            this.set.add(r);
+        } else {
+            logger.warn("Warning: Bogus empty string in get string call: ");
+            logger.warn("... " + data.substring(result.index, reGetStringSymbolKeyValuePattern.lastIndex) + " ...");
+        }
+        result = reGetStringSymbolKeyValuePattern.exec(data);
     }
 
     // now check for and report on errors in the source

@@ -1,7 +1,7 @@
 /*
  * testJavaScriptFile.js - test the JavaScript file handler object.
  *
- * Copyright © 2019, 
+ * Copyright © 2019, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -970,13 +970,12 @@ module.exports.javascriptfile = {
         test.equal(set.size(), 0);
         test.done();
     },
-
-    testJavaScriptFileExtractBogusFile: function(test) {
+    testJavaScriptFileTest2: function(test) {
         test.expect(2);
 
         var j = new JavaScriptFile({
             project: p,
-            pathName: "./java/foo.js",
+            pathName: "./js/t2.js",
             type: jsft
         });
         test.ok(j);
@@ -985,7 +984,7 @@ module.exports.javascriptfile = {
         j.extract();
 
         var set = j.getTranslationSet();
-        test.equal(set.size(), 0);
+        test.equal(set.size(), 10);
         test.done();
     }
 };
