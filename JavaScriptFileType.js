@@ -24,7 +24,7 @@ var ResBundle = require("ilib/lib/ResBundle.js");
 var log4js = require("log4js");
 
 var JavaScriptFile = require("./JavaScriptFile.js");
-//var JavaScriptResourceFileType = require("ilib-loctool-webos-json-resource");
+var JavaScriptResourceFileType = require("ilib-loctool-webos-json-resource");
 
 var logger = log4js.getLogger("loctool.plugin.JavaScriptFileType");
 
