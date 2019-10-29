@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en-KR" trgLang="ko-KR">
+ <file id="settings_f1" original="settings">
+  <group id="settings_g1" name="javascript">
+   <unit id="settings_1">
+    <segment>
+     <source>DNS Server</source>
+     <target>1.DNS Server</target>
+    </segment>
+   </unit>
+  <unit id="settings_2">
+    <segment>
+     <source>Style</source>
+     <target>2.Style ...</target>
+    </segment>
+   </unit>
+  <unit id="settings_3">
+    <segment>
+     <source>No</source>
+     <target>3. No ...</target>
+    </segment>
+   </unit>
+   <unit id="settings_140" name="pictureModeSettings">
+    <segment>
+     <source>Customize</source>
+     <target>xkey1 상세 설정</target>
+    </segment>
+   </unit>
+   <unit id="settings_192" name="speaker_channel">
+    <segment>
+     <source>Style</source>
+     <target>xkey2 스타일</target>
+    </segment>
+   </unit>
+   <unit id="settings_199">
+    <segment>
+     <source>Custom</source>
+     <target>4. Custom ...</target>
+    </segment>
+   </unit>
+   <unit id="settings_192" name="digitalOptionSetByProgram">
+    <segment>
+     <source>hello hallo</source>
+     <target>xkey3 digitalOption....</target>
+    </segment>
+   </unit>
+  </group>
+ </file>
+</xliff>
