@@ -120,7 +120,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
             db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
                 var r = translated;
                 if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
-                    this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getReskey()))) {
+                    this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey()))) {
                     if (r) {
                         logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
                         logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
