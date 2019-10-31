@@ -31,6 +31,7 @@ var logger = log4js.getLogger("loctool.plugin.JavaScriptFileType");
 var JavaScriptFileType = function(project) {
     this.type = "javascript";
     this.datatype = "javascript";
+    this.resourceType = "json";
 
     this.project = project;
     this.API = project.getAPI();
@@ -98,10 +99,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
     // distribute all the resources to their resource files
     // and then let them write themselves out
 
-    //var resFileType = this.project.getResourceFileType("js");
-    // Need to be fixed.
-    var requestedType = Object.keys(this.project.options.resourceDirs)[0] || "json";
-    var resFileType = this.project.getResourceFileType(requestedType);
+    var resFileType = this.project.getResourceFileType(this.resourceType);
 
     var res, file,
         resources = this.extracted.getAll(),
@@ -168,7 +166,7 @@ JavaScriptFileType.prototype.newFile = function(path) {
     return new JavaScriptFile({
         project: this.project,
         pathName: path,
-        fileType: this
+        type: this
     });
 };
 
