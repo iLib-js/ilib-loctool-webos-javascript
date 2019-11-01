@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+    <file datatype="javascript" original="settings" source-language="en-KR" target-language="af-ZA">
+        <body>
+        <trans-unit datatype="javascript" id="settings_17095">
+            <source>DNS Server</source>
+                <target>1. DNS-bediener</target>
+        </trans-unit>
+        <trans-unit datatype="javascript" id="settings_16943">
+                <source>Style</source>
+                <target>2. Style...</target>
+        </trans-unit>
+        <trans-unit datatype="javascript" id="settings_16945">
+                <source>No</source>
+                <target>3. No...</target>
+        </trans-unit>
+        <trans-unit datatype="javascript" id="settings_8363">
+                <source x-key="pictureModeSettings">Customize</source>
+                <target>xkey1 Pasmaak</target>
+        </trans-unit>
+        <trans-unit datatype="javascript" id="settings_16564">
+                <source x-key="speaker_channel">Style</source>
+                <target>xkey2 Styl</target>
+        </trans-unit>
+        <trans-unit datatype="javascript" id="settings_17010">
+                <source>Custom</source>
+                <target>4. Custom...</target>
+        </trans-unit>
+        <trans-unit datatype="javascript" id="settings_17011">
+                <source>digitalOptionSetByProgram</source>
+                <target>xkey3 ohohoh</target>
+        </trans-unit>
+
+      </body>
+   </file>
+</xliff>

@@ -24,7 +24,7 @@ var ResBundle = require("ilib/lib/ResBundle.js");
 var log4js = require("log4js");
 
 var JavaScriptFile = require("./JavaScriptFile.js");
-//var JavaScriptResourceFileType = require("ilib-loctool-webos-json-resource");
+var JavaScriptResourceFileType = require("ilib-loctool-webos-json-resource");
 
 var logger = log4js.getLogger("loctool.plugin.JavaScriptFileType");
 
@@ -117,7 +117,8 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
 
             db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
                 var r = translated;
-                if (!translated || this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource())) {
+                if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
+                    this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey()))) {
                     if (r) {
                         logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
                         logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
