@@ -15,8 +15,6 @@
         "resources",
         "locale",
         "translation",
-        "webpack",
-        "loader",
         "javascript"
     ],
     "author": {
