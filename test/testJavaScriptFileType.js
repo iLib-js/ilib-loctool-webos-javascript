@@ -1,5 +1,5 @@
 /*
- * testJavaScriptFileType.js - test the HTML template file type handler object.
+ * testJavaScriptFileType.js - test the JavaScript file type handler object.
  *
  * Copyright © 2019-2020, JEDLSoft
  *
