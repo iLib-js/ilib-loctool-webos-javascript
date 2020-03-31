@@ -32,20 +32,16 @@ var JavaScriptFileType = function(project) {
     this.type = "javascript";
     this.datatype = "javascript";
     this.resourceType = "json";
+    this.extensions = [ ".js", ".jsx"];
 
     this.project = project;
     this.API = project.getAPI();
-
-    this.extensions = [ ".js", ".jsx"];
-
     this.extracted = this.API.newTranslationSet(project.getSourceLocale());
     this.newres = this.API.newTranslationSet(project.getSourceLocale());
-    this.pseudo = this.API.newTranslationSet(project.getSourceLocale());
+    this.pseudos = this.API.newTranslationSet(project.getSourceLocale());
 };
 
 var alreadyLocJS = new RegExp(/\.([a-z][a-z](-[A-Z][a-z][a-z][a-z])?(-[A-Z][A-Z](-[A-Z]+)?)?)\.js$/);
-var alreadyLocHaml = new RegExp(/\.([a-z][a-z](-[A-Z][a-z][a-z][a-z])?(-[A-Z][A-Z](-[A-Z]+)?)?)\.html\.haml$/);
-var alreadyLocTmpl = new RegExp(/\.([a-z][a-z](-[A-Z][a-z][a-z][a-z])?(-[A-Z][A-Z](-[A-Z]+)?)?)\.tmpl\.html$/);
 
 /**
  * Return true if the given path is a java file and is handled
@@ -66,14 +62,6 @@ JavaScriptFileType.prototype.handles = function(pathName) {
         (pathName.length > 4  && pathName.substring(pathName.length - 4) === ".jsx")) {
         var match = alreadyLocJS.exec(pathName);
         ret = (match && match.length) ? match[1] === this.project.sourceLocale : true;
-    } else if (pathName.length > 10) {
-        if (pathName.substring(pathName.length - 10) === ".html.haml") {
-            var match = alreadyLocHaml.exec(pathName);
-            ret = (match && match.length) ? match[1] === this.project.sourceLocale : true;
-        } else if (pathName.substring(pathName.length - 10) === ".tmpl.html") {
-            var match = alreadyLocTmpl.exec(pathName);
-            ret = (match && match.length) ? match[1] === this.project.sourceLocale : true;
-        }
     }
 
     logger.debug(ret ? "Yes" : "No");
@@ -200,6 +188,27 @@ JavaScriptFileType.prototype.getResourceFileType = function() {
  */
 JavaScriptFileType.prototype.getExtracted = function() {
     return this.extracted;
+};
+
+/**
+ * Ensure that all resources collected so far have a pseudo translation.
+ */
+JavaScriptFileType.prototype.generatePseudo = function(locale, pb) {
+    var resources = this.extracted.getBy({
+        sourceLocale: pb
+    });
+    logger.trace("Found " + resources.length + " source resources for " + pb);
+    var resource;
+
+    resources.forEach(function(resource) {
+        if (resource && resource.getKey()) {
+            logger.trace("Generating pseudo for " + resource.getKey());
+            var res = resource.generatePseudo(locale, pb);
+            if (res && res.getSource() !== res.getTarget()) {
+                this.pseudo.add(res);
+            }
+        }
+    }.bind(this));
 };
 
 /**

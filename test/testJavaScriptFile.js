@@ -21,6 +21,7 @@ if (!JavaScriptFile) {
     var JavaScriptFile = require("../JavaScriptFile.js");
     var JavaScriptFileType = require("../JavaScriptFileType.js");
     var CustomProject =  require("loctool/lib/CustomProject.js");
+    var RegularPseudo =  require("loctool/lib/RegularPseudo.js");
 }
 
 var p = new CustomProject({
@@ -985,6 +986,105 @@ module.exports.javascriptfile = {
 
         var set = j.getTranslationSet();
         test.equal(set.size(), 10);
+        test.done();
+    },
+    testJavaScriptPseudoLocalization1: function(test) {
+        test.expect(4);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        test.ok(j);
+
+        j.parse('rb.getStringJS("This is a test")');
+        var set = j.getTranslationSet();
+        test.ok(set);
+
+        var r = set.getBySource("This is a test");
+        test.ok(r);
+
+        var rb = new RegularPseudo({
+            type: "javascript"
+        });
+        var rs2 = r.generatePseudo("zxx-XX", rb);
+        test.equal(rs2.getTarget(),"Ťĥíš íš à ţëšţ6543210");
+        test.done();
+    },
+    testJavaScriptPseudoLocalization2: function(test) {
+        test.expect(4);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        test.ok(j);
+
+        j.parse('rb.getStringJS("This is a test")');
+        var set = j.getTranslationSet();
+        test.ok(set);
+
+        var r = set.getBySource("This is a test");
+        test.ok(r);
+
+        var rb = new RegularPseudo({
+            type: "javascript",
+            locale: "zxx-Hans-XX"
+        });
+        var rs2 = r.generatePseudo("zxx-Hans-XX", rb);
+        test.equal(rs2.getTarget(),"推和意思意思阿推俄思推6543210");
+        test.done();
+    },
+    testJavaScriptPseudoLocalization3: function(test) {
+        test.expect(4);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        test.ok(j);
+
+        j.parse('rb.getStringJS("This is a test")');
+        var set = j.getTranslationSet();
+        test.ok(set);
+
+        var r = set.getBySource("This is a test");
+        test.ok(r);
+
+        var rb = new RegularPseudo({
+            type: "javascript",
+            locale: "zxx-Cyrl-XX"
+        });
+        var rs2 = r.generatePseudo("zxx-Cyrl-XX", rb);
+        test.equal(rs2.getTarget(), "Тхис ис а тэст6543210");
+        test.done();
+    },
+    testJavaScriptPseudoLocalization4: function(test) {
+        test.expect(4);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        test.ok(j);
+
+        j.parse('rb.getStringJS("This is a test")');
+        var set = j.getTranslationSet();
+        test.ok(set);
+
+        var r = set.getBySource("This is a test");
+        test.ok(r);
+
+        var rb = new RegularPseudo({
+            type: "javascript",
+            locale: "zxx-Hebr-XX"
+        });
+        var rs2 = r.generatePseudo("zxx-Hebr-XX", rb);
+        test.equal(rs2.getTarget(), 'טהִס ִס ַ טֶסט6543210');
         test.done();
     }
 };
