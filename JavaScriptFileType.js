@@ -18,15 +18,10 @@
  */
 
 var fs = require("fs");
-var ilib = require("ilib");
-var Locale = require("ilib/lib/Locale.js");
-var ResBundle = require("ilib/lib/ResBundle.js");
 var log4js = require("log4js");
-
+var logger = log4js.getLogger("loctool.plugin.JavaScriptFileType");
 var JavaScriptFile = require("./JavaScriptFile.js");
 var JavaScriptResourceFileType = require("ilib-loctool-webos-json-resource");
-
-var logger = log4js.getLogger("loctool.plugin.JavaScriptFileType");
 
 var JavaScriptFileType = function(project) {
     this.type = "javascript";
@@ -38,7 +33,22 @@ var JavaScriptFileType = function(project) {
     this.API = project.getAPI();
     this.extracted = this.API.newTranslationSet(project.getSourceLocale());
     this.newres = this.API.newTranslationSet(project.getSourceLocale());
-    this.pseudos = this.API.newTranslationSet(project.getSourceLocale());
+    this.pseudo = this.API.newTranslationSet(project.getSourceLocale());
+
+    this.pseudos = {};
+
+    // generate all the pseudo bundles we'll need
+    project.pseudoLocale && project.pseudoLocale.forEach(function(locale) {
+        var pseudo = this.API.getPseudoBundle(locale, this, project);
+        if (pseudo) {
+            this.pseudos[locale] = pseudo;
+        }
+    }.bind(this));
+
+    // for use with missing strings
+    if (!project.settings.nopseudo) {
+        this.missingPseudo = this.API.getPseudoBundle(project.pseudoLocale, this, project);
+    }
 };
 
 var alreadyLocJS = new RegExp(/\.([a-z][a-z](-[A-Z][a-z][a-z][a-z])?(-[A-Z][A-Z](-[A-Z]+)?)?)\.js$/);
@@ -195,18 +205,16 @@ JavaScriptFileType.prototype.getExtracted = function() {
  */
 JavaScriptFileType.prototype.generatePseudo = function(locale, pb) {
     var resources = this.extracted.getBy({
-        sourceLocale: pb
+        sourceLocale: pb.getSourceLocale()
     });
-    logger.trace("Found " + resources.length + " source resources for " + pb);
+    logger.trace("Found " + resources.length + " source resources for " + pb.getSourceLocale());
     var resource;
 
     resources.forEach(function(resource) {
-        if (resource && resource.getKey()) {
-            logger.trace("Generating pseudo for " + resource.getKey());
-            var res = resource.generatePseudo(locale, pb);
-            if (res && res.getSource() !== res.getTarget()) {
-                this.pseudo.add(res);
-            }
+        logger.trace("Generating pseudo for " + resource.getKey());
+        var res = resource.generatePseudo(locale, pb);
+        if (res && res.getSource() !== res.getTarget()) {
+            this.pseudo.add(res);
         }
     }.bind(this));
 };
