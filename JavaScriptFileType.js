@@ -23,6 +23,7 @@ var logger = log4js.getLogger("loctool.plugin.JavaScriptFileType");
 var JavaScriptFile = require("./JavaScriptFile.js");
 var JavaScriptResourceFileType = require("ilib-loctool-webos-json-resource");
 
+
 var JavaScriptFileType = function(project) {
     this.type = "javascript";
     this.datatype = "javascript";
@@ -36,6 +37,10 @@ var JavaScriptFileType = function(project) {
     this.pseudo = this.API.newTranslationSet(project.getSourceLocale());
 
     this.pseudos = {};
+
+    if (typeof project.pseudoLocale === "string") {
+        project.pseudoLocale = [project.pseudoLocale];
+    }
 
     // generate all the pseudo bundles we'll need
     project.pseudoLocale && project.pseudoLocale.forEach(function(locale) {

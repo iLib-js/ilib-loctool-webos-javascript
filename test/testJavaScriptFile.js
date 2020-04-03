@@ -1031,7 +1031,7 @@ module.exports.javascriptfile = {
 
         var rb = new RegularPseudo({
             type: "javascript",
-            locale: "zxx-Hans-XX"
+            targetLocale: "zxx-Hans-XX"
         });
         var rs2 = r.generatePseudo("zxx-Hans-XX", rb);
         test.equal(rs2.getTarget(),"推和意思意思阿推俄思推6543210");
@@ -1056,7 +1056,7 @@ module.exports.javascriptfile = {
 
         var rb = new RegularPseudo({
             type: "javascript",
-            locale: "zxx-Cyrl-XX"
+            targetLocale: "zxx-Cyrl-XX"
         });
         var rs2 = r.generatePseudo("zxx-Cyrl-XX", rb);
         test.equal(rs2.getTarget(), "Тхис ис а тэст6543210");
@@ -1081,7 +1081,7 @@ module.exports.javascriptfile = {
 
         var rb = new RegularPseudo({
             type: "javascript",
-            locale: "zxx-Hebr-XX"
+            targetLocale: "zxx-Hebr-XX"
         });
         var rs2 = r.generatePseudo("zxx-Hebr-XX", rb);
         test.equal(rs2.getTarget(), 'טהִס ִס ַ טֶסט6543210');
