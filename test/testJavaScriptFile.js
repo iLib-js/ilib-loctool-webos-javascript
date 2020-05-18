@@ -843,7 +843,7 @@ module.exports.javascriptfile = {
         j.parse('EPIRB.getString("This is a test");');
 
         var set = j.getTranslationSet();
-        test.equal(set.size(), 0);
+        test.equal(set.size(), 1);
 
         test.done();
     },
@@ -937,7 +937,7 @@ module.exports.javascriptfile = {
         // should read the file
         j.extract();
         var set = j.getTranslationSet();
-        test.equal(set.size(), 4);
+        test.equal(set.size(), 8);
 
         var r = set.getBySource("This is a test");
         test.ok(r);

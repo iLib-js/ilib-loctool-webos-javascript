@@ -107,11 +107,11 @@ var reGetStringBogusConcatenation1 = new RegExp(/(^R|\WR)B\.getString(JS)?\s*\(\
 var reGetStringBogusConcatenation2 = new RegExp(/(^R|\WR)B\.getString(JS)?\s*\([^\)]*\+\s*("[^"]*"|'[^']*')\s*\)/g);
 var reGetStringBogusParam = new RegExp(/(^R|\WR)B\.getString(JS)?\s*\([^"'\)]*\)/g);
 
-var reGetString = new RegExp(/(^[R|r]|\W[R|r|])[B|b]\.getString(JS)?\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
+var reGetString = new RegExp(/\.getString(JS)?\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
 var reGetStringSymbol = new RegExp(/(^\$|\W\$)L?\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
 var reGetStringSymbolKeyValuePattern = new RegExp(/^\$|\W\$L?\s*\(\s*{(key|value)\:\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\,\s*(key|value)\:("((\\"|[^"])*)"|'((\\'|[^'])*)')\}\)/g);
 
-var reGetStringWithId = new RegExp(/(^[R|r]|\W[R|r])[B|b]\.getString(JS)?\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*,\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
+var reGetStringWithId = new RegExp(/\.getString(JS)?\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*,\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
 
 var reI18nComment = new RegExp("//\\s*i18n\\s*:\\s*(.*)$");
 
@@ -128,9 +128,9 @@ JavaScriptFile.prototype.parse = function(data) {
 
     reGetString.lastIndex = 0; // just to be safe
     var result = reGetString.exec(data);
-    while (result && result.length > 1 && result[3]) {
+    while (result && result.length > 1 && result[2]) {
         // different matches for single and double quotes
-        match = (result[3][0] === '"') ? result[4] : result[6];
+        match = (result[2][0] === '"') ? result[3] : result[5];
 
         if (match && match.length) {
             logger.trace("Found string key: " + this.makeKey(match) + ", string: '" + match + "'");
@@ -167,10 +167,10 @@ JavaScriptFile.prototype.parse = function(data) {
     reGetStringWithId.lastIndex = 0;
 
     result = reGetStringWithId.exec(data);
-    while (result && result.length > 2 && result[3] && result[8]) {
+    while (result && result.length > 2 && result[2] && result[7]) {
         // different matches for single and double quotes
-        match = (result[3][0] === '"') ? result[4] : result[6];
-        key = (result[8][0] === '"') ? result[9] : result[11];
+        match = (result[2][0] === '"') ? result[3] : result[5];
+        key = (result[7][0] === '"') ? result[8] : result[10];
 
         if (match && key && match.length && key.length) {
             var last = data.indexOf('\n', reGetStringWithId.lastIndex);
