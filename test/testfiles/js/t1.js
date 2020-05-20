@@ -10,3 +10,7 @@ t1.prototype.tester = function() {
     rb.getString("This is a test with a unique id", "id1");
     $L("This is a test with getString Wrapper");
 };
+createButtonOnPage(webappResBundle.getString("EXIT APP"), "ExitApp_Button", dir_head, onExitApp);
+createButtonOnPage(webappResBundle.getString("RETRY"), "Retry_Button", dir_tail, onRetryApp);
+createButtonOnPage(webappResBundle.getString("NETWORK SETTINGS"), "NetworkSetting_Button", dir_tail, onLaunchNetworkSetting);
+createButtonOnPage(webappResBundle.getString("SETTINGS"), "Setting_Button", dir_tail, onLaunchGeneralSetting);
