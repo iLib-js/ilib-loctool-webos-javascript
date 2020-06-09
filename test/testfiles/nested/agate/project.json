@@ -1,6 +1,6 @@
 {
 	"name": "agate",
-    "id": "agate-xliff",
+    "id": "agate",
     "projectType": "webos-web",
     "pseudoLocale": ["zxx-XX"],
     "resourceDirs": {
