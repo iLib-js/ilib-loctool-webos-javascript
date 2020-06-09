@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en-US" trgLang="ko-KR">
+ <file id="agate_f1" original="agate">
+  <group id="agate_g1" name="javascript">
+   <unit id="sample_0">
+    <segment>
+     <source>Hello</source>
+     <target>안녕하세요</target>
+    </segment>
+   </unit>
+   <unit id="agate_1">
+    <segment>
+     <source>Music</source>
+     <target>음악</target>
+    </segment>
+   </unit>
+  </group>
+ </file>
+</xliff>

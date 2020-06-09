@@ -1,0 +1,24 @@
+{
+	"name": "agate",
+    "id": "agate-xliff",
+    "projectType": "webos-web",
+    "pseudoLocale": ["zxx-XX"],
+    "resourceDirs": {
+    "json":"resources"
+    },
+     "resourceFileTypes": {
+        "json":"ilib-loctool-webos-json-resource"
+     },
+    "plugins": [
+         "ilib-loctool-webos-javascript",
+         "ilib-loctool-webos-appinfo-json"
+     ],
+     "excludes": [
+        "node_modules",
+        "package.json",
+        "resources"
+     ],
+	 "settings": {
+	 	"locales": ["ko-KR"]
+	 }
+}

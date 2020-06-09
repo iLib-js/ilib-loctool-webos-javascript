@@ -1,0 +1,2 @@
+$L("Music");
+$L("Settings");
