@@ -1,24 +1,24 @@
 {
-	"name": "sample",
+    "name": "sample",
     "id": "sample",
     "projectType": "webos-web",
     "pseudoLocale": ["zxx-XX"],
     "resourceDirs": {
     "json":"resources"
-    },
+     },
      "resourceFileTypes": {
-        "json":"ilib-loctool-webos-json-resource"
+         "json":"ilib-loctool-webos-json-resource"
      },
     "plugins": [
          "ilib-loctool-webos-javascript",
          "ilib-loctool-webos-appinfo-json"
      ],
      "excludes": [
-        "node_modules",
-        "package.json",
-        "resources"
+         "node_modules",
+         "package.json",
+         "resources"
      ],
-	 "settings": {
-	 	"locales": ["ko-KR"]
+     "settings": {
+         "locales": ["ko-KR"]
 	 }
 }
