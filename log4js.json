@@ -10,21 +10,15 @@
     },
     "categories": {
         "default": {
-            "appenders": [
-                "default"
-            ],
+            "appenders": ["default"],
             "level": "info"
         },
         "loctool.plugin.JavaScriptFile": {
-            "appenders": [
-                "default"
-            ],
+            "appenders": ["default"],
             "level": "info"
         },
         "loctool.plugin.JavaScriptFileType": {
-            "appenders": [
-                "default"
-            ],
+            "appenders": ["default"],
             "level": "info"
         }
     }
