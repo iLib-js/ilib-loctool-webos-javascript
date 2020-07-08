@@ -18,11 +18,12 @@
  */
 
 var fs = require("fs");
+var path = require("path");
 var log4js = require("log4js");
 var logger = log4js.getLogger("loctool.plugin.JavaScriptFileType");
+log4js.configure(path.dirname(module.filename) + '/log4js.json');
 var JavaScriptFile = require("./JavaScriptFile.js");
 var JavaScriptResourceFileType = require("ilib-loctool-webos-json-resource");
-
 
 var JavaScriptFileType = function(project) {
     this.type = "javascript";
