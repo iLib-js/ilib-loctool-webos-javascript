@@ -7,7 +7,7 @@ allows it to read and localize javascript files. This plugins is optimized for w
 v1.3.0
 * Updated regular Expression to extract case when resbundle object name is not `rb` or `RB`.
 * Updated code to print log with log4js.
-* Support loctool's geneerate mode.
+* Support loctool's generate mode.
 
 v1.2.0
 * Support pseudo localization
