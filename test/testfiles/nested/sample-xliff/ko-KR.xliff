@@ -5,7 +5,7 @@
    <unit id="sample_0">
     <segment>
      <source>Hello</source>
-     <target>안녕</target>
+     <target>안녕-sample</target>
     </segment>
    </unit>
    <unit id="sample_1">
