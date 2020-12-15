@@ -1,0 +1,25 @@
+{
+    "appenders": {
+        "default": {
+            "type": "console",
+            "layout": {
+                "type": "pattern",
+                "pattern": "%r %p %c: %m"
+            }
+        }
+    },
+    "categories": {
+        "default": {
+            "appenders": ["default"],
+            "level": "info"
+        },
+        "loctool.plugin.JavaScriptFile": {
+            "appenders": ["default"],
+            "level": "info"
+        },
+        "loctool.plugin.JavaScriptFileType": {
+            "appenders": ["default"],
+            "level": "info"
+        }
+    }
+}

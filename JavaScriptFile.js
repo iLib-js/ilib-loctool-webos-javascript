@@ -22,7 +22,7 @@ var path = require("path");
 var log4js = require("log4js");
 
 var logger = log4js.getLogger("loctool.plugin.JavaScriptFile");
-
+log4js.configure(path.dirname(module.filename) + '/log4js.json');
 /**
  * Create a new java file with the given path name and within
  * the given project.
@@ -103,9 +103,9 @@ JavaScriptFile.prototype.makeKey = function(source) {
     return JavaScriptFile.unescapeString(source);
 };
 
-var reGetStringBogusConcatenation1 = new RegExp(/(^R|\WR)B\.getString(JS)?\s*\(\s*("[^"]*"|'[^']*')\s*\+/g);
-var reGetStringBogusConcatenation2 = new RegExp(/(^R|\WR)B\.getString(JS)?\s*\([^\)]*\+\s*("[^"]*"|'[^']*')\s*\)/g);
-var reGetStringBogusParam = new RegExp(/(^R|\WR)B\.getString(JS)?\s*\([^"'\)]*\)/g);
+var reGetStringBogusConcatenation1 = new RegExp(/\.getString(JS)?\s*\(\s*("[^"]*"|'[^']*')\s*\+/g);
+var reGetStringBogusConcatenation2 = new RegExp(/\.getString(JS)?\s*\([^\)]*\+\s*("[^"]*"|'[^']*')\s*\)/g);
+var reGetStringBogusParam = new RegExp(/\.getString(JS)?\s*\([^"'\)]*\)/g);
 
 var reGetString = new RegExp(/\.getString(JS)?\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
 var reGetStringSymbol = new RegExp(/(^\$|\W\$)L?\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
@@ -156,8 +156,8 @@ JavaScriptFile.prototype.parse = function(data) {
             });
             this.set.add(r);
         } else {
-            logger.warn("Warning: Bogus empty string in get string call: ");
-            logger.warn("... " + data.substring(result.index, reGetString.lastIndex) + " ...");
+            logger.debug("Warning: Bogus empty string in get string call: ");
+            logger.debug("... " + data.substring(result.index, reGetString.lastIndex) + " ...");
         }
         result = reGetString.exec(data);
     }
@@ -195,8 +195,8 @@ JavaScriptFile.prototype.parse = function(data) {
             });
             this.set.add(r);
         } else {
-            logger.warn("Warning: Bogus empty string in get string call: ");
-            logger.warn("... " + data.substring(result.index, reGetString.lastIndex) + " ...");
+            logger.debug("Warning: Bogus empty string in get string call: ");
+            logger.debug("... " + data.substring(result.index, reGetString.lastIndex) + " ...");
         }
         result = reGetStringWithId.exec(data);
     }
@@ -234,8 +234,8 @@ JavaScriptFile.prototype.parse = function(data) {
             });
             this.set.add(r);
         } else {
-            logger.warn("Warning: Bogus empty string in get string call: ");
-            logger.warn("... " + data.substring(result.index, reGetStringSymbol.lastIndex) + " ...");
+            logger.debug("Warning: Bogus empty string in get string call: ");
+            logger.debug("... " + data.substring(result.index, reGetStringSymbol.lastIndex) + " ...");
         }
         result = reGetStringSymbol.exec(data);
     }
@@ -277,25 +277,25 @@ JavaScriptFile.prototype.parse = function(data) {
             });
             this.set.add(r);
         } else {
-            logger.warn("Warning: Bogus empty string in get string call: ");
-            logger.warn("... " + data.substring(result.index, reGetStringSymbolKeyValuePattern.lastIndex) + " ...");
+            logger.debug("Warning: Bogus empty string in get string call: ");
+            logger.debug("... " + data.substring(result.index, reGetStringSymbolKeyValuePattern.lastIndex) + " ...");
         }
         result = reGetStringSymbolKeyValuePattern.exec(data);
     }
 
     // now check for and report on errors in the source
     this.API.utils.generateWarnings(data, reGetStringBogusConcatenation1,
-        "Warning: string concatenation is not allowed in the RB.getString() parameters:",
+        "Warning: string concatenation is not allowed in the .getString() parameters:",
         logger,
         this.pathName);
 
     this.API.utils.generateWarnings(data, reGetStringBogusConcatenation2,
-        "Warning: string concatenation is not allowed in the RB.getString() parameters:",
+        "Warning: string concatenation is not allowed in the .getString() parameters:",
         logger,
         this.pathName);
 
     this.API.utils.generateWarnings(data, reGetStringBogusParam,
-        "Warning: non-string arguments are not allowed in the RB.getString() parameters:",
+        "Warning: non-string arguments are not allowed in the .getString() parameters:",
         logger,
         this.pathName);
 };

@@ -1,6 +1,6 @@
 {
     "name": "ilib-loctool-webos-javascript",
-    "version": "1.2.1",
+    "version": "1.3.0",
     "main": "./JavaScriptFileType.js",
     "description": "A loctool plugin that knows how to process JS files",
     "license": "Apache-2.0",
@@ -30,6 +30,7 @@
     "files": [
         "README.md",
         "LICENSE",
+        "log4js.json",
         "JavaScriptFileType.js",
         "JavaScriptFile.js"
     ],
@@ -47,12 +48,12 @@
         "node": ">=6.0"
     },
     "dependencies": {
-        "ilib": "^14.6.0",
-        "ilib-loctool-webos-json-resource": "^1.2.0",
+        "ilib": "^14.6.2",
+        "ilib-loctool-webos-json-resource": "1.3.2",
         "log4js": "^5.0.0"
     },
     "devDependencies": {
-        "loctool": "^2.7.0",
+        "loctool": "2.10.0",
         "nodeunit": "^0.11.3"
     }
 }

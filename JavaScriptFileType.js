@@ -18,11 +18,12 @@
  */
 
 var fs = require("fs");
+var path = require("path");
 var log4js = require("log4js");
 var logger = log4js.getLogger("loctool.plugin.JavaScriptFileType");
+log4js.configure(path.dirname(module.filename) + '/log4js.json');
 var JavaScriptFile = require("./JavaScriptFile.js");
 var JavaScriptResourceFileType = require("ilib-loctool-webos-json-resource");
-
 
 var JavaScriptFileType = function(project) {
     this.type = "javascript";
@@ -103,6 +104,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
     // and then let them write themselves out
 
     var resFileType = this.project.getResourceFileType(this.resourceType);
+    var mode = this.project.settings.mode;
 
     var res, file,
         resources = this.extracted.getAll(),
@@ -111,51 +113,54 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
             return locale !== this.project.sourceLocale && locale !== this.project.pseudoLocale;
         }.bind(this));
 
-    for (var i = 0; i < resources.length; i++) {
-        res = resources[i];
+    if (mode === "localize") {
+        for (var i = 0; i < resources.length; i++) {
+            res = resources[i];
 
-        // for each extracted string, write out the translations of it
-        translationLocales.forEach(function(locale) {
-            logger.trace("Localizing JavaScript strings to " + locale);
+            // for each extracted string, write out the translations of it
+            translationLocales.forEach(function(locale) {
+                logger.trace("Localizing JavaScript strings to " + locale);
 
-            db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
-                var r = translated;
-                if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
-                    this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey()))) {
-                    if (r) {
-                        logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
-                        logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
+                db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
+                    var r = translated;
+                    if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
+                        this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey()))) {
+                        if (r) {
+                            logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
+                            logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
+                        }
+                        var note = r && 'The source string has changed. Please update the translation to match if necessary. Previous source: "' + r.getSource() + '"';
+                        var newres = res.clone();
+                        newres.setTargetLocale(locale);
+                        newres.setTarget((r && r.getTarget()) || res.getSource());
+                        newres.setState("new");
+                        newres.setComment(note);
+
+                        this.newres.add(newres);
+
+                        logger.trace("No translation for " + res.reskey + " to " + locale);
+                    } else {
+                        if (res.reskey != r.reskey) {
+                            // if reskeys don't match, we matched on cleaned string.
+                            //so we need to overwrite reskey of the translated resource to match
+                            r = r.clone();
+                            r.reskey = res.reskey;
+                        }
+
+                        file = resFileType.getResourceFile(locale);
+                        file.addResource(r);
+                        logger.trace("Added " + r.reskey + " to " + file.pathName);
                     }
-                    var note = r && 'The source string has changed. Please update the translation to match if necessary. Previous source: "' + r.getSource() + '"';
-                    var newres = res.clone();
-                    newres.setTargetLocale(locale);
-                    newres.setTarget((r && r.getTarget()) || res.getSource());
-                    newres.setState("new");
-                    newres.setComment(note);
-
-                    this.newres.add(newres);
-
-                    logger.trace("No translation for " + res.reskey + " to " + locale);
-                } else {
-                    if (res.reskey != r.reskey) {
-                        // if reskeys don't match, we matched on cleaned string.
-                        //so we need to overwrite reskey of the translated resource to match
-                        r = r.clone();
-                        r.reskey = res.reskey;
-                    }
-
-                    file = resFileType.getResourceFile(locale);
-                    file.addResource(r);
-                    logger.trace("Added " + r.reskey + " to " + file.pathName);
-                }
+                }.bind(this));
             }.bind(this));
+        }
+        resources = this.pseudo.getAll().filter(function(resource) {
+            return resource.datatype === this.datatype;
         }.bind(this));
+    } else {
+        // generate mode
+        resources = this.project.db.ts.resources;
     }
-
-    resources = this.pseudo.getAll().filter(function(resource) {
-        return resource.datatype === this.datatype;
-    }.bind(this));
-
     for (var i = 0; i < resources.length; i++) {
         res = resources[i];
         if (res.getTargetLocale() !== this.project.sourceLocale && res.getSource() !== res.getTarget()) {
