@@ -1,0 +1,2 @@
+$L("Hello");
+$L("Settings");
