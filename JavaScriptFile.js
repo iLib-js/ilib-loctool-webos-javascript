@@ -1,7 +1,7 @@
 /*
  * JavaScriptFile.js - plugin to extract resources from a JavaScript source code file
  *
- * Copyright © 2019-2020, JEDLSoft
+ * Copyright © 2019-2021, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -86,6 +86,19 @@ JavaScriptFile.cleanString = function(string) {
 
     return unescaped;
 };
+/**
+ * @private
+ * @param {String} string the string to clean
+ * @returns {String} the cleaned string
+ */
+JavaScriptFile.stripComments = function(data) {
+    //http://1004lucifer.blogspot.com/2019/06/regex.html
+    // $text =~ s/\/\/[^\n\r]*(\n\r)?//g;
+    // $text =~ s/\/\*+([^*]|\*(?!\/))*\*+\///g;
+    //var regExp = "/\/\/\s*((?!i18n).).*$/g";
+    var stripData = data.replace(/\/\/\s*((?!i18n).).*$/, "");
+    return stripData;
+};
 
 /**
  * Make a new key for the given string. This must correspond
@@ -122,6 +135,9 @@ var reI18nComment = new RegExp("//\\s*i18n\\s*:\\s*(.*)$");
  */
 JavaScriptFile.prototype.parse = function(data) {
     logger.debug("Extracting strings from " + this.pathName);
+
+    data = JavaScriptFile.stripComments(data);
+
     this.resourceIndex = 0;
 
     var comment, match, key;
