@@ -5,6 +5,10 @@ allows it to read and localize javascript files. This plugins is optimized for w
 
 ## Release Notes
 v1.4.0
+* Remove commented line before parsing. so Strings in the comments don't extract.
+
+
+v1.3.0
 * Updated regular Expression to extract case when resbundle object name is not `rb` or `RB`.
 * Updated code to print log with log4js.
 * Support loctool's generate mode.

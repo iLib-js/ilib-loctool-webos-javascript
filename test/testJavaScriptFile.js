@@ -1101,7 +1101,23 @@ module.exports.javascriptfile = {
         j.extract();
 
         var set = j.getTranslationSet();
-        test.equal(set.size(), 1);
+        test.equal(set.size(), 4);
         test.done();
     },
+    testJavaScriptFileNotParseComment: function(test) {
+        test.expect(2);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        test.ok(j);
+
+        j.parse('// $L("This is a test"); // i18n: this is a translator\'s comment\n\tfoo("This is not");');
+
+        var set = j.getTranslationSet();
+        test.equal(set.size(), 0);
+        test.done();
+    }
 };

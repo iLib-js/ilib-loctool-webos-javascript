@@ -87,17 +87,17 @@ JavaScriptFile.cleanString = function(string) {
     return unescaped;
 };
 /**
- * @private
+ * @private Remove single and multi lines fo comments
  * @param {String} string the string to clean
  * @returns {String} the cleaned string
  */
-JavaScriptFile.stripComments = function(data) {
-    //http://1004lucifer.blogspot.com/2019/06/regex.html
-    // $text =~ s/\/\/[^\n\r]*(\n\r)?//g;
-    // $text =~ s/\/\*+([^*]|\*(?!\/))*\*+\///g;
-    //var regExp = "/\/\/\s*((?!i18n).).*$/g";
-    var stripData = data.replace(/\/\/\s*((?!i18n).).*$/, "");
-    return stripData;
+JavaScriptFile.trimComments = function(data) {
+    if (!data) return;
+    // comment style: // , /* */ single, multi line
+    var trimData = data.replace(/\/\/\s*((?!i18n).)*[$/\n]/g, "").
+                    replace(/\/\*+([^*]|\*(?!\/))*\*+\//g, "").
+                    replace(/\/\*(.*)\*\//g, "");
+    return trimData;
 };
 
 /**
@@ -136,7 +136,7 @@ var reI18nComment = new RegExp("//\\s*i18n\\s*:\\s*(.*)$");
 JavaScriptFile.prototype.parse = function(data) {
     logger.debug("Extracting strings from " + this.pathName);
 
-    data = JavaScriptFile.stripComments(data);
+    data = JavaScriptFile.trimComments(data);
 
     this.resourceIndex = 0;
 
