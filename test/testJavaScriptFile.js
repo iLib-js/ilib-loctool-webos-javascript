@@ -1119,5 +1119,38 @@ module.exports.javascriptfile = {
         var set = j.getTranslationSet();
         test.equal(set.size(), 0);
         test.done();
+    },
+    testJavaScriptFileNotremotei18nComment: function(test) {
+        test.expect(10);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        test.ok(j);
+
+        j.parse('$L("This is a test"); // i18n: this is a translator\'s comment\n\t$L("This is a test2");foo("This is not");');
+
+        var set = j.getTranslationSet();
+        test.equal(set.size(), 2);
+
+        r = set.getBy({
+            reskey: "This is a test"
+        });
+        test.ok(r);
+        test.equal(r[0].getSource(), "This is a test");
+        test.equal(r[0].getKey(), "This is a test");
+        test.equal(r[0].getComment(), "this is a translator\'s comment");
+
+        r = set.getBy({
+            reskey: "This is a test2"
+        });
+        test.ok(r);
+        test.equal(r[0].getSource(), "This is a test2");
+        test.equal(r[0].getKey(), "This is a test2");
+        test.equal(r[0].getComment(), undefined);
+
+        test.done();
     }
 };
