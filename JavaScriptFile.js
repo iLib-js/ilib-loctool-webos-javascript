@@ -87,7 +87,9 @@ JavaScriptFile.cleanString = function(string) {
     return unescaped;
 };
 /**
- * @private Remove single and multi lines fo comments
+ * Remove single and multi-lines comments except for i18n comment style.
+ *
+ * @private
  * @param {String} string the string to clean
  * @returns {String} the cleaned string
  */
