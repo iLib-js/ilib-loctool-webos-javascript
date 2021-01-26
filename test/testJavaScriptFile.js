@@ -1,7 +1,7 @@
 /*
  * testJavaScriptFile.js - test the JavaScript file handler object.
  *
- * Copyright © 2019-2020, JEDLSoft
+ * Copyright © 2019-2021, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1085,6 +1085,72 @@ module.exports.javascriptfile = {
         });
         var rs2 = r.generatePseudo("zxx-Hebr-XX", rb);
         test.equal(rs2.getTarget(), 'טהִס ִס ַ טֶסט6543210');
+        test.done();
+    },
+    testJavaScriptFileTest4: function(test) {
+        test.expect(2);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: "./js/t4.js",
+            type: jsft
+        });
+        test.ok(j);
+
+        // should attempt to read the file and not fail
+        j.extract();
+
+        var set = j.getTranslationSet();
+        test.equal(set.size(), 4);
+        test.done();
+    },
+    testJavaScriptFileNotParseComment: function(test) {
+        test.expect(2);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        test.ok(j);
+
+        j.parse('// $L("This is a test"); // i18n: this is a translator\'s comment\n\tfoo("This is not");');
+
+        var set = j.getTranslationSet();
+        test.equal(set.size(), 0);
+        test.done();
+    },
+    testJavaScriptFileNotremotei18nComment: function(test) {
+        test.expect(10);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        test.ok(j);
+
+        j.parse('$L("This is a test"); // i18n: this is a translator\'s comment\n\t$L("This is a test2");foo("This is not");');
+
+        var set = j.getTranslationSet();
+        test.equal(set.size(), 2);
+
+        r = set.getBy({
+            reskey: "This is a test"
+        });
+        test.ok(r);
+        test.equal(r[0].getSource(), "This is a test");
+        test.equal(r[0].getKey(), "This is a test");
+        test.equal(r[0].getComment(), "this is a translator\'s comment");
+
+        r = set.getBy({
+            reskey: "This is a test2"
+        });
+        test.ok(r);
+        test.equal(r[0].getSource(), "This is a test2");
+        test.equal(r[0].getKey(), "This is a test2");
+        test.equal(r[0].getComment(), undefined);
+
         test.done();
     }
 };
