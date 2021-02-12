@@ -6,6 +6,7 @@ allows it to read and localize javascript files. This plugins is optimized for w
 ## Release Notes
 v1.4.0
 * Remove commented lines before parsing so that strings in the comments will not be extracted.
+* Update dependent module version to have the latest one.
 
 v1.3.0
 * Updated regular Expression to extract case when resbundle object name is not `rb` or `RB`.
