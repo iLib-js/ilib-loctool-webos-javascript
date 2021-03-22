@@ -2,7 +2,7 @@ name: Update copyright year(s) in license file
 
 on:
   schedule:
-    - cron: "30 7 22 3 *"
+    - cron: "00 8 22 3 *"
 
 jobs:
   run:
@@ -17,7 +17,8 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         path: |
           README.md
-          ./**/*.js
+          ./*.js
+          ./test/*.js
         branchName: license/{{currentYear}}
         commitTitle: update license
         commitBody: Let's keep legal happy.
