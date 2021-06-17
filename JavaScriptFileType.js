@@ -39,17 +39,15 @@ var JavaScriptFileType = function(project) {
 
     this.pseudos = {};
 
-    if (typeof project.pseudoLocale === "string") {
-        project.pseudoLocale = [project.pseudoLocale];
-    }
-
     // generate all the pseudo bundles we'll need
-    project.pseudoLocale && project.pseudoLocale.forEach(function(locale) {
-        var pseudo = this.API.getPseudoBundle(locale, this, project);
-        if (pseudo) {
-            this.pseudos[locale] = pseudo;
+    if (project.pseudoLocales && typeof project.pseudoLocales == 'object'){
+        for (locale in project.pseudoLocales) {
+            var pseudo = this.API.getPseudoBundle(locale, this, project);
+            if (pseudo) {
+                this.pseudos[locale] = pseudo;
+            }
         }
-    }.bind(this));
+    }
 
     // for use with missing strings
     if (!project.settings.nopseudo) {
