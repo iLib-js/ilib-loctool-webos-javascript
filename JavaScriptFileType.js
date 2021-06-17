@@ -17,7 +17,6 @@
  * limitations under the License.
  */
 
-var fs = require("fs");
 var path = require("path");
 var log4js = require("log4js");
 var logger = log4js.getLogger("loctool.plugin.JavaScriptFileType");
@@ -37,20 +36,28 @@ var JavaScriptFileType = function(project) {
     this.newres = this.API.newTranslationSet(project.getSourceLocale());
     this.pseudo = this.API.newTranslationSet(project.getSourceLocale());
 
-    this.pseudos = {};
-
-    if (typeof project.pseudoLocale === "string") {
+    if (project.pseudoLocale && typeof project.pseudoLocale === "string") {
         project.pseudoLocale = [project.pseudoLocale];
     }
-
     // generate all the pseudo bundles we'll need
-    project.pseudoLocale && project.pseudoLocale.forEach(function(locale) {
-        var pseudo = this.API.getPseudoBundle(locale, this, project);
-        if (pseudo) {
-            this.pseudos[locale] = pseudo;
+    if (project.pseudoLocale && Array.isArray(project.pseudoLocale)) {
+        this.pseudos = {};
+        project.pseudoLocale && project.pseudoLocale.forEach(function(locale) {
+            var pseudo = this.API.getPseudoBundle(locale, this, project);
+            if (pseudo) {
+                this.pseudos[locale] = pseudo;
+            }
+        }.bind(this));
+    }
+    if (project.pseudoLocales && typeof project.pseudoLocales == 'object') {
+        this.pseudos = {};
+        for (locale in project.pseudoLocales) {
+            var pseudo = this.API.getPseudoBundle(locale, this, project);
+            if (pseudo) {
+                this.pseudos[locale] = pseudo;
+            }
         }
-    }.bind(this));
-
+    }
     // for use with missing strings
     if (!project.settings.nopseudo) {
         this.missingPseudo = this.API.getPseudoBundle(project.pseudoLocale, this, project);
