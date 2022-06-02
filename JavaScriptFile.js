@@ -1,7 +1,7 @@
 /*
  * JavaScriptFile.js - plugin to extract resources from a JavaScript source code file
  *
- * Copyright (c) 2019-2021, JEDLSoft
+ * Copyright (c) 2019-2022, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,7 @@
 
 var fs = require("fs");
 var path = require("path");
-var log4js = require("log4js");
 
-var logger = log4js.getLogger("loctool.plugin.JavaScriptFile");
-log4js.configure(path.dirname(module.filename) + '/log4js.json');
 /**
  * Create a new java file with the given path name and within
  * the given project.
@@ -37,7 +34,7 @@ var JavaScriptFile = function(props) {
     this.pathName = props.pathName;
     this.type = props.type;
     this.API = props.project.getAPI();
-
+    this.logger = this.API.getLogger("loctool.plugin.webOSJSFile");
     this.set = this.API.newTranslationSet(this.project ? this.project.sourceLocale : "zxx-XX");
 };
 
@@ -136,7 +133,7 @@ var reI18nComment = new RegExp("//\\s*i18n\\s*:\\s*(.*)$");
  * @param {String} data the string to parse
  */
 JavaScriptFile.prototype.parse = function(data) {
-    logger.debug("Extracting strings from " + this.pathName);
+    this.logger.debug("Extracting strings from " + this.pathName);
 
     data = JavaScriptFile.trimComments(data);
 
@@ -151,7 +148,7 @@ JavaScriptFile.prototype.parse = function(data) {
         match = (result[2][0] === '"') ? result[3] : result[5];
 
         if (match && match.length) {
-            logger.trace("Found string key: " + this.makeKey(match) + ", string: '" + match + "'");
+            this.logger.trace("Found string key: " + this.makeKey(match) + ", string: '" + match + "'");
 
             var last = data.indexOf('\n', reGetString.lastIndex);
             last = (last === -1) ? data.length : last;
@@ -174,8 +171,8 @@ JavaScriptFile.prototype.parse = function(data) {
             });
             this.set.add(r);
         } else {
-            logger.debug("Warning: Bogus empty string in get string call: ");
-            logger.debug("... " + data.substring(result.index, reGetString.lastIndex) + " ...");
+            this.logger.debug("Warning: Bogus empty string in get string call: ");
+            this.logger.debug("... " + data.substring(result.index, reGetString.lastIndex) + " ...");
         }
         result = reGetString.exec(data);
     }
@@ -197,7 +194,7 @@ JavaScriptFile.prototype.parse = function(data) {
             var commentResult = reI18nComment.exec(line);
             comment = (commentResult && commentResult.length > 1) ? commentResult[1] : undefined;
 
-            logger.trace("Found string '" + match + "' with unique key " + key + ", comment: " + comment);
+            this.logger.trace("Found string '" + match + "' with unique key " + key + ", comment: " + comment);
 
             var r = this.API.newResource({
                 resType: "string",
@@ -213,8 +210,8 @@ JavaScriptFile.prototype.parse = function(data) {
             });
             this.set.add(r);
         } else {
-            logger.debug("Warning: Bogus empty string in get string call: ");
-            logger.debug("... " + data.substring(result.index, reGetString.lastIndex) + " ...");
+            this.logger.debug("Warning: Bogus empty string in get string call: ");
+            this.logger.debug("... " + data.substring(result.index, reGetString.lastIndex) + " ...");
         }
         result = reGetStringWithId.exec(data);
     }
@@ -230,7 +227,7 @@ JavaScriptFile.prototype.parse = function(data) {
         match = (result[2][0] === '"') ? result[3] : result[5];
 
         if (match && match.length) {
-            logger.trace("Found string key: " + this.makeKey(match) + ", string: '" + match + "'");
+            this.logger.trace("Found string key: " + this.makeKey(match) + ", string: '" + match + "'");
 
             var last = data.indexOf('\n', reGetStringSymbol.lastIndex);
             last = (last === -1) ? data.length : last;
@@ -252,8 +249,8 @@ JavaScriptFile.prototype.parse = function(data) {
             });
             this.set.add(r);
         } else {
-            logger.debug("Warning: Bogus empty string in get string call: ");
-            logger.debug("... " + data.substring(result.index, reGetStringSymbol.lastIndex) + " ...");
+            this.logger.debug("Warning: Bogus empty string in get string call: ");
+            this.logger.debug("... " + data.substring(result.index, reGetStringSymbol.lastIndex) + " ...");
         }
         result = reGetStringSymbol.exec(data);
     }
@@ -273,7 +270,7 @@ JavaScriptFile.prototype.parse = function(data) {
         }
 
         if (match && match.length) {
-            logger.trace("Found string key: " + this.makeKey(match) + ", string: '" + match + "'");
+            this.logger.trace("Found string key: " + this.makeKey(match) + ", string: '" + match + "'");
 
             var last = data.indexOf('\n', reGetStringSymbolKeyValuePattern.lastIndex);
             last = (last === -1) ? data.length : last;
@@ -295,8 +292,8 @@ JavaScriptFile.prototype.parse = function(data) {
             });
             this.set.add(r);
         } else {
-            logger.debug("Warning: Bogus empty string in get string call: ");
-            logger.debug("... " + data.substring(result.index, reGetStringSymbolKeyValuePattern.lastIndex) + " ...");
+            this.logger.debug("Warning: Bogus empty string in get string call: ");
+            this.logger.debug("... " + data.substring(result.index, reGetStringSymbolKeyValuePattern.lastIndex) + " ...");
         }
         result = reGetStringSymbolKeyValuePattern.exec(data);
     }
@@ -304,17 +301,17 @@ JavaScriptFile.prototype.parse = function(data) {
     // now check for and report on errors in the source
     this.API.utils.generateWarnings(data, reGetStringBogusConcatenation1,
         "Warning: string concatenation is not allowed in the .getString() parameters:",
-        logger,
+        this.logger,
         this.pathName);
 
     this.API.utils.generateWarnings(data, reGetStringBogusConcatenation2,
         "Warning: string concatenation is not allowed in the .getString() parameters:",
-        logger,
+        this.logger,
         this.pathName);
 
     this.API.utils.generateWarnings(data, reGetStringBogusParam,
         "Warning: non-string arguments are not allowed in the .getString() parameters:",
-        logger,
+        this.logger,
         this.pathName);
 };
 
@@ -323,7 +320,7 @@ JavaScriptFile.prototype.parse = function(data) {
  * project's translation set.
  */
 JavaScriptFile.prototype.extract = function() {
-    logger.debug("Extracting strings from " + this.pathName);
+    this.logger.debug("Extracting strings from " + this.pathName);
     if (this.pathName) {
         var p = path.join(this.project.root, this.pathName);
         try {
@@ -332,7 +329,7 @@ JavaScriptFile.prototype.extract = function() {
                 this.parse(data);
             }
         } catch (e) {
-            logger.warn("Could not read file: " + p);
+            this.logger.warn("Could not read file: " + p);
         }
     }
 };

@@ -1,7 +1,7 @@
 /*
  * JavaScriptFileType.js - Represents a collection of javasript files
  *
- * Copyright (c) 2019-2021, JEDLSoft
+ * Copyright (c) 2019-2022, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +18,6 @@
  */
 
 var path = require("path");
-var log4js = require("log4js");
-var logger = log4js.getLogger("loctool.plugin.JavaScriptFileType");
-log4js.configure(path.dirname(module.filename) + '/log4js.json');
 var JavaScriptFile = require("./JavaScriptFile.js");
 var JavaScriptResourceFileType = require("ilib-loctool-webos-json-resource");
 
@@ -35,7 +32,7 @@ var JavaScriptFileType = function(project) {
     this.extracted = this.API.newTranslationSet(project.getSourceLocale());
     this.newres = this.API.newTranslationSet(project.getSourceLocale());
     this.pseudo = this.API.newTranslationSet(project.getSourceLocale());
-
+    this.logger = this.API.getLogger("loctool.plugin.webOSJSFileType");
     if (project.pseudoLocale && typeof project.pseudoLocale === "string") {
         project.pseudoLocale = [project.pseudoLocale];
     }
@@ -75,7 +72,7 @@ var alreadyLocJS = new RegExp(/\.([a-z][a-z](-[A-Z][a-z][a-z][a-z])?(-[A-Z][A-Z]
  * otherwise
  */
 JavaScriptFileType.prototype.handles = function(pathName) {
-    logger.debug("JavaScriptFileType handles " + pathName + "?");
+    this.logger.debug("JavaScriptFileType handles " + pathName + "?");
     var ret = false;
 
     // resource files should be handled by the JavaScriptResourceType instead
@@ -87,7 +84,7 @@ JavaScriptFileType.prototype.handles = function(pathName) {
         ret = (match && match.length) ? match[1] === this.project.sourceLocale : true;
     }
 
-    logger.debug(ret ? "Yes" : "No");
+    this.logger.debug(ret ? "Yes" : "No");
     return ret;
 };
 
@@ -126,15 +123,15 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
 
             // for each extracted string, write out the translations of it
             translationLocales.forEach(function(locale) {
-                logger.trace("Localizing JavaScript strings to " + locale);
+                this.logger.trace("Localizing JavaScript strings to " + locale);
 
                 db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
                     var r = translated;
                     if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
                         this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey()))) {
                         if (r) {
-                            logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
-                            logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
+                            this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
+                            this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
                         }
                         var note = r && 'The source string has changed. Please update the translation to match if necessary. Previous source: "' + r.getSource() + '"';
                         var newres = res.clone();
@@ -145,7 +142,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
 
                         this.newres.add(newres);
 
-                        logger.trace("No translation for " + res.reskey + " to " + locale);
+                        this.logger.trace("No translation for " + res.reskey + " to " + locale);
                     } else {
                         if (res.reskey != r.reskey) {
                             // if reskeys don't match, we matched on cleaned string.
@@ -156,7 +153,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
 
                         file = resFileType.getResourceFile(locale);
                         file.addResource(r);
-                        logger.trace("Added " + r.reskey + " to " + file.pathName);
+                        this.logger.trace("Added " + r.reskey + " to " + file.pathName);
                     }
                 }.bind(this));
             }.bind(this));
@@ -173,7 +170,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
         if (res.getTargetLocale() !== this.project.sourceLocale && res.getSource() !== res.getTarget()) {
             file = resFileType.getResourceFile(res.getTargetLocale());
             file.addResource(res);
-            logger.trace("Added " + res.reskey + " to " + file.pathName);
+            this.logger.trace("Added " + res.reskey + " to " + file.pathName);
         }
     }
 };
@@ -224,11 +221,11 @@ JavaScriptFileType.prototype.generatePseudo = function(locale, pb) {
     var resources = this.extracted.getBy({
         sourceLocale: pb.getSourceLocale()
     });
-    logger.trace("Found " + resources.length + " source resources for " + pb.getSourceLocale());
+    this.logger.trace("Found " + resources.length + " source resources for " + pb.getSourceLocale());
     var resource;
 
     resources.forEach(function(resource) {
-        logger.trace("Generating pseudo for " + resource.getKey());
+        this.logger.trace("Generating pseudo for " + resource.getKey());
         var res = resource.generatePseudo(locale, pb);
         if (res && res.getSource() !== res.getTarget()) {
             this.pseudo.add(res);
