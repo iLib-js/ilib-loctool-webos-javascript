@@ -17,3 +17,5 @@ t1.prototype.tester = function() {
                 'manual': $L('Custom'),
                 'auto': $L({key:'digitalOptionSetByProgram', value:'Set By Program'})
             }
+
+{'key': 'track', children: $L({value: 'Track', key: 'music_track'})},
