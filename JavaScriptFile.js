@@ -121,7 +121,7 @@ var reGetStringBogusParam = new RegExp(/\.getString(JS)?\s*\([^"'\)]*\)/g);
 
 var reGetString = new RegExp(/\.getString(JS)?\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
 var reGetStringSymbol = new RegExp(/(^\$|\W\$)L?\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
-var reGetStringSymbolKeyValuePattern = new RegExp(/^\$|\W\$L?\s*\(\s*{(key|value)\:\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\,\s*(key|value)\:("((\\"|[^"])*)"|'((\\'|[^'])*)')\}\)/g);
+var reGetStringSymbolKeyValuePattern = new RegExp(/(?:^\$|\W\$)L?\s*\(\s*{(key|value)\:\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\,\s*(key|value)\:\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\}\)/g);
 
 var reGetStringWithId = new RegExp(/\.getString(JS)?\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*,\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
 
@@ -264,13 +264,16 @@ JavaScriptFile.prototype.parse = function(data) {
         // different matches for single and double quotes
 
         if (result[1] === "key") {
-            match = (result[2][0] === '"') ? result[3] : result[5];
-        } else if (result[7] === "key") {
+            key = (result[2][0] === '"') ? result[3] : result[5];
             match = (result[8][0] === '"') ? result[9] : result[11];
+
+        } else if (result[7] === "key") {
+            key = (result[8][0] === '"') ? result[9] : result[11];
+            match = (result[2][0] === '"') ? result[3] : result[5];
         }
 
         if (match && match.length) {
-            this.logger.trace("Found string key: " + this.makeKey(match) + ", string: '" + match + "'");
+            this.logger.trace("Found string key: " + key + ", string: '" + match + "'");
 
             var last = data.indexOf('\n', reGetStringSymbolKeyValuePattern.lastIndex);
             last = (last === -1) ? data.length : last;
@@ -280,7 +283,7 @@ JavaScriptFile.prototype.parse = function(data) {
 
             var r = this.API.newResource({
                 project: this.project.getProjectId(),
-                key: JavaScriptFile.unescapeString(match),
+                key: JavaScriptFile.unescapeString(key),
                 sourceLocale: this.project.sourceLocale,
                 source: JavaScriptFile.cleanString(match),
                 autoKey: true,

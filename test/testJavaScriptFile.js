@@ -1,7 +1,7 @@
 /*
  * testJavaScriptFile.js - test the JavaScript file handler object.
  *
- * Copyright (c) 2019-2021, JEDLSoft
+ * Copyright (c) 2019-2022, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -175,7 +175,72 @@ module.exports.javascriptfile = {
 
         test.done();
     },
+    testJavaScriptFileParseSimpleSingleQuotesByKeyValue1: function(test) {
+        test.expect(5);
 
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        test.ok(j);
+
+        j.parse("$L({key:'speaker_channel', value:'Channel'})");
+
+        var set = j.getTranslationSet();
+        test.ok(set);
+
+        var r = set.getBySource("Channel");
+        test.ok(r);
+        test.equal(r.getSource(), "Channel");
+        test.equal(r.getKey(), "speaker_channel");
+
+        test.done();
+    },
+    testJavaScriptFileParseSimpleSingleQuotesByKeyValue2: function(test) {
+        test.expect(5);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        test.ok(j);
+
+        j.parse("$L({value:'Channel', key:'speaker_channel'})");
+
+        var set = j.getTranslationSet();
+        test.ok(set);
+
+        var r = set.getBySource("Channel");
+        test.ok(r);
+        test.equal(r.getSource(), "Channel");
+        test.equal(r.getKey(), "speaker_channel");
+
+        test.done();
+    },
+    testJavaScriptFileParseSimpleSingleQuotesByKeyValue3: function(test) {
+        test.expect(5);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        test.ok(j);
+
+        j.parse("$L({key:  'speaker_channel', value:   'Channel'})");
+
+        var set = j.getTranslationSet();
+        test.ok(set);
+
+        var r = set.getBySource("Channel");
+        test.ok(r);
+        test.equal(r.getSource(), "Channel");
+        test.equal(r.getKey(), "speaker_channel");
+
+        test.done();
+    },
     testJavaScriptFileParseJSSimpleSingleQuotes: function(test) {
         test.expect(5);
 
@@ -972,7 +1037,7 @@ module.exports.javascriptfile = {
         test.done();
     },
     testJavaScriptFileTest2: function(test) {
-        test.expect(2);
+        test.expect(5);
 
         var j = new JavaScriptFile({
             project: p,
@@ -985,7 +1050,14 @@ module.exports.javascriptfile = {
         j.extract();
 
         var set = j.getTranslationSet();
-        test.equal(set.size(), 10);
+        test.equal(set.size(), 11);
+
+
+        var r = set.getBySource("Track");
+        test.ok(r);
+        test.equal(r.getSource(), "Track");
+        test.equal(r.getKey(), "music_track");
+
         test.done();
     },
     testJavaScriptPseudoLocalization1: function(test) {

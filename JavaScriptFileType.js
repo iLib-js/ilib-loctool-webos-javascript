@@ -17,7 +17,6 @@
  * limitations under the License.
  */
 
-var path = require("path");
 var JavaScriptFile = require("./JavaScriptFile.js");
 var JavaScriptResourceFileType = require("ilib-loctool-webos-json-resource");
 
@@ -25,7 +24,7 @@ var JavaScriptFileType = function(project) {
     this.type = "javascript";
     this.datatype = "javascript";
     this.resourceType = "json";
-    this.extensions = [ ".js", ".jsx"];
+    this.extensions = [".js", ".jsx"];
 
     this.project = project;
     this.API = project.getAPI();
