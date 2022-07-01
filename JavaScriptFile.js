@@ -273,7 +273,7 @@ JavaScriptFile.prototype.parse = function(data) {
         }
 
         if (match && match.length) {
-            this.logger.trace("Found string key: " + this.makeKey(key) + ", string: '" + match + "'");
+            this.logger.trace("Found string key: " + key + ", string: '" + match + "'");
 
             var last = data.indexOf('\n', reGetStringSymbolKeyValuePattern.lastIndex);
             last = (last === -1) ? data.length : last;

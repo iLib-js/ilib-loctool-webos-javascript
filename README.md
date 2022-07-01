@@ -8,7 +8,7 @@ v1.4.6
 * Update dependencies
 * Use the logger provided by the loctool instead of using log4js directly.
 * Add node 16 version testing for circleCI (minimum version of node is v10)
-* Fixe an issue where the $L(key,value) usage could not be parsed properly.
+* Fix an issue where the $L(key,value) usage could not be parsed properly.
 
 v1.4.5
 * Update dependent module version to have the latest one.(loctool: 2.16.2)
