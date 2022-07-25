@@ -5,41 +5,41 @@ allows it to read and localize javascript files. This plugins is optimized for w
 
 ## Release Notes
 v1.4.6
-* Update dependencies
-* Use the logger provided by the loctool instead of using log4js directly.
-* Add node 16 version testing for circleCI (minimum version of node is v10)
-* Fix an issue where the $L(key,value) usage could not be parsed properly.
+* Updated dependencies. (loctool: 2.16.2)
+* Used the logger provided by the loctool instead of using log4js directly.
+* Added node 16 version testing for circleCI (minimum version of node is v10.0.0)
+* Fixed an issue where the $L(key,value) usage could not be parsed properly.
 
 v1.4.5
 * Update dependent module version to have the latest one.(loctool: 2.16.2)
 
 v1.4.4
-* Fix pseudo localization to work properly
-* Update dependent module version to have the latest one.(loctool: 2.14.1)
+* Fixed pseudo localization to work properly
+* Updated dependent module version to have the latest one.(loctool: 2.14.1)
 
 v1.4.3
-* Update dependent module version to have the latest one.(loctool: 2.13.0)
+* Updated dependent module version to have the latest one.(loctool: 2.13.0)
 
 v1.4.2
-* Update dependent module version to have the latest one.(loctool: 2.12.0)
+* Updated dependent module version to have the latest one.(loctool: 2.12.0)
 
 v1.4.1
-* Update dependent module version to have the latest one.(loctool: 2.10.3)
+* Updated dependent module version to have the latest one.(loctool: 2.10.3)
 
 v1.4.0
-* Remove commented lines before parsing so that strings in the comments will not be extracted.
-* Update dependent module version to have the latest one.
+* Removed commented lines before parsing so that strings in the comments will not be extracted.
+* Updated dependent module version to have the latest one.
 
 v1.3.0
 * Updated regular Expression to extract case when resbundle object name is not `rb` or `RB`.
 * Updated code to print log with log4js.
-* Support loctool's generate mode.
+* Supported loctool's generate mode.
 
 v1.2.0
-* Support pseudo localization
+* Supported pseudo localization
 
 v1.1.0
-* Support xliff 2.0 style
+* Supported xliff 2.0 style
    * Update code to return translation data properly with xliff 2.0 format
 
 
