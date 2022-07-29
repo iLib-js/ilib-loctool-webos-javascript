@@ -109,7 +109,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
 
     var resFileType = this.project.getResourceFileType(this.resourceType);
     var mode = this.project.settings.mode;
-
+    var baseLocale, langDefaultLocale, baseTranslation;
     var res, file,
         resources = this.extracted.getAll(),
         db = this.project.db,
@@ -125,9 +125,9 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
             translationLocales.forEach(function(locale) {
                 this.logger.trace("Localizing JavaScript strings to " + locale);
 
-                var baseLocale = Utils.isBaseLocale(locale);
-                var langDefaultLocale = Utils.getBaseLocale(locale);
-                var baseTranslation = res.getSource();
+                baseLocale = Utils.isBaseLocale(locale);
+                langDefaultLocale = Utils.getBaseLocale(locale);
+                baseTranslation = res.getSource();
 
                 if (baseLocale){
                     langDefaultLocale = "en-US";  // language default locale need to compare with root data
