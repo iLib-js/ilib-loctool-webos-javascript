@@ -19,6 +19,7 @@
 
 var JavaScriptFile = require("./JavaScriptFile.js");
 var JavaScriptResourceFileType = require("ilib-loctool-webos-json-resource");
+var Utils = require("loctool/lib/utils.js")
 
 var JavaScriptFileType = function(project) {
     this.type = "javascript";
@@ -108,7 +109,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
 
     var resFileType = this.project.getResourceFileType(this.resourceType);
     var mode = this.project.settings.mode;
-
+    var baseLocale, langDefaultLocale, baseTranslation;
     var res, file,
         resources = this.extracted.getAll(),
         db = this.project.db,
@@ -124,6 +125,21 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
             translationLocales.forEach(function(locale) {
                 this.logger.trace("Localizing JavaScript strings to " + locale);
 
+                baseLocale = Utils.isBaseLocale(locale);
+                langDefaultLocale = Utils.getBaseLocale(locale);
+                baseTranslation = res.getSource();
+
+                if (baseLocale){
+                    langDefaultLocale = "en-US";  // language default locale need to compare with root data
+                }
+
+                if (locale !== 'en-US' && (translationLocales.includes(langDefaultLocale))) {
+                    db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(langDefaultLocale), function(err, translated) {
+                        if (translated) {
+                            baseTranslation = translated.getTarget();
+                        }
+                    }.bind(this));
+                }
                 db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
                     var r = translated;
                     if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
@@ -149,10 +165,14 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                             r = r.clone();
                             r.reskey = res.reskey;
                         }
-
-                        file = resFileType.getResourceFile(locale);
-                        file.addResource(r);
-                        this.logger.trace("Added " + r.reskey + " to " + file.pathName);
+                        
+                        if (baseTranslation != r.getTarget()) {
+                            file = resFileType.getResourceFile(locale);
+                            file.addResource(r);
+                            this.logger.trace("Added " + r.reskey + " to " + file.pathName);
+                        } else {
+                            this.logger.trace("Same translation as base translation for " + res.reskey + " to " + locale);
+                        }
                     }
                 }.bind(this));
             }.bind(this));
