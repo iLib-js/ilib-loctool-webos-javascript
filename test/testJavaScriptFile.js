@@ -320,15 +320,15 @@ module.exports.javascriptfile = {
         });
         test.ok(j);
 
-        j.parse('RB.getStringJS("\t\t This \\n \n is \\\n\t a    test")');
+        j.parse('RB.getStringJS("\t\t This \n \n is \n\t a    test")');
 
         var set = j.getTranslationSet();
         test.ok(set);
 
-        var r = set.getBySource("This is a test");
+        var r = set.getBySource("\t\t This \n \n is \n\t a    test");
         test.ok(r);
-        test.equal(r.getSource(), "This is a test");
-        test.equal(r.getKey(), "\t\t This \\n \n is \t a    test");
+        test.equal(r.getSource(), "\t\t This \n \n is \n\t a    test");
+        test.equal(r.getKey(), " This is a test");
 
         test.done();
     },

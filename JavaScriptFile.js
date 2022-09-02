@@ -50,8 +50,8 @@ JavaScriptFile.unescapeString = function(string) {
     var unescaped = string;
 
     unescaped = unescaped.
-        replace(/\\\\n/g, "").                // line continuation
-        replace(/\\\n/g, "").                // line continuation
+        /*replace(/\\\\n/g, "").                // line continuation
+        replace(/\\\n/g, "").*/                // line continuation
         replace(/^\\\\/, "\\").             // unescape backslashes
         replace(/([^\\])\\\\/g, "$1\\").
         replace(/^\\'/, "'").               // unescape quotes
@@ -112,7 +112,7 @@ JavaScriptFile.trimComments = function(data) {
  * @returns {String} a unique key for this string
  */
 JavaScriptFile.prototype.makeKey = function(source) {
-    return JavaScriptFile.unescapeString(source);
+    return JavaScriptFile.unescapeString(source).replace(/\s+/gm, ' ');
 };
 
 var reGetStringBogusConcatenation1 = new RegExp(/\.getString(JS)?\s*\(\s*("[^"]*"|'[^']*')\s*\+/g);
@@ -159,9 +159,9 @@ JavaScriptFile.prototype.parse = function(data) {
             var r = this.API.newResource({
                 resType: "string",
                 project: this.project.getProjectId(),
-                key: JavaScriptFile.unescapeString(match),
+                key: this.makeKey(match),
                 sourceLocale: this.project.sourceLocale,
-                source: JavaScriptFile.cleanString(match),
+                source: JavaScriptFile.unescapeString(match),
                 autoKey: true,
                 pathName: this.pathName,
                 state: "new",
@@ -199,9 +199,9 @@ JavaScriptFile.prototype.parse = function(data) {
             var r = this.API.newResource({
                 resType: "string",
                 project: this.project.getProjectId(),
-                key: key,
+                key: this.makeKey(key),
                 sourceLocale: this.project.sourceLocale,
-                source: JavaScriptFile.cleanString(match),
+                source: JavaScriptFile.unescapeString(match),
                 pathName: this.pathName,
                 state: "new",
                 comment: comment,
@@ -237,9 +237,9 @@ JavaScriptFile.prototype.parse = function(data) {
 
             var r = this.API.newResource({
                 project: this.project.getProjectId(),
-                key: JavaScriptFile.unescapeString(match),
+                key: this.makeKey(match),
                 sourceLocale: this.project.sourceLocale,
-                source: JavaScriptFile.cleanString(match),
+                source: JavaScriptFile.unescapeString(match),
                 autoKey: true,
                 pathName: this.pathName,
                 state: "new",
@@ -283,9 +283,9 @@ JavaScriptFile.prototype.parse = function(data) {
 
             var r = this.API.newResource({
                 project: this.project.getProjectId(),
-                key: JavaScriptFile.unescapeString(key),
+                key: this.makeKey(key),
                 sourceLocale: this.project.sourceLocale,
-                source: JavaScriptFile.cleanString(match),
+                source: JavaScriptFile.unescapeString(match),
                 autoKey: true,
                 pathName: this.pathName,
                 state: "new",
