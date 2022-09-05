@@ -50,8 +50,6 @@ JavaScriptFile.unescapeString = function(string) {
     var unescaped = string;
 
     unescaped = unescaped.
-        /*replace(/\\\\n/g, "").                // line continuation
-        replace(/\\\n/g, "").*/                // line continuation
         replace(/^\\\\/, "\\").             // unescape backslashes
         replace(/([^\\])\\\\/g, "$1\\").
         replace(/^\\'/, "'").               // unescape quotes
