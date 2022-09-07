@@ -6,6 +6,7 @@ allows it to read and localize javascript files. This plugins is optimized for w
 ## Release Notes
 v1.4.7
 * Updated to check language default locale translation not to generate duplicate resources.
+* Updated to make source and key policy clear to avoid confusion.
 
 v1.4.6
 * Updated dependencies. (loctool: 2.16.3)
