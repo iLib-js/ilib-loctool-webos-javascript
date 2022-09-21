@@ -59,9 +59,25 @@ var JavaScriptFileType = function(project) {
     if (!project.settings.nopseudo) {
         this.missingPseudo = this.API.getPseudoBundle(project.pseudoLocale, this, project);
     }
+
+    this.localeMap = Object.assign(overrideBaseLocale, project.settings.localeMap);
 };
 
 var alreadyLocJS = new RegExp(/\.([a-z][a-z](-[A-Z][a-z][a-z][a-z])?(-[A-Z][A-Z](-[A-Z]+)?)?)\.js$/);
+var overrideBaseLocale = {
+    "ar-SA": "ar",
+    "ca-AD": "ca",
+    "es-CO": "es",
+    "ku-Arab-IQ": "ku",
+    "sw-Latn-KE": "sw",
+    "ur-UA": "ur",
+    "bs-Latn-BA": "bs",
+    "ha-Latn-NG": "ha",
+    "ky-KG": "ky",
+    "mn-Cyrl-MN": "mn",
+    "sr-Latn-RS": "sr",
+    "pa-IN": "pa"
+}
 
 /**
  * Return true if the given path is a java file and is handled
@@ -125,8 +141,15 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
             translationLocales.forEach(function(locale) {
                 this.logger.trace("Localizing JavaScript strings to " + locale);
 
-                baseLocale = Utils.isBaseLocale(locale);
-                langDefaultLocale = Utils.getBaseLocale(locale);
+                if (this.localeMap[locale]){
+                    baseLocale = true;
+                    Utils.setBaseLocale(locale, this.localeMap[locale]);
+                    langDefaultLocale = locale;
+                } else {
+                    baseLocale = Utils.isBaseLocale(locale);
+                    langDefaultLocale = Utils.getBaseLocale(locale);
+                }
+                
                 baseTranslation = res.getSource();
 
                 if (baseLocale){
