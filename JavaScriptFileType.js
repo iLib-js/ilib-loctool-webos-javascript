@@ -64,6 +64,7 @@ var JavaScriptFileType = function(project) {
 };
 
 var alreadyLocJS = new RegExp(/\.([a-z][a-z](-[A-Z][a-z][a-z][a-z])?(-[A-Z][A-Z](-[A-Z]+)?)?)\.js$/);
+
 var overrideBaseLocale = {
     "ar-SA": "ar",
     "ca-AD": "ca",
