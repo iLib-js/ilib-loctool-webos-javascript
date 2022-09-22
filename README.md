@@ -5,7 +5,7 @@ allows it to read and localize javascript files. This plugins is optimized for w
 
 ## Release Notes
 v1.5.0
-* Added ability to overrie language Default Locale
+* Added ability to override language default locale.
 
 v1.4.7
 * Updated to check language default locale translation not to generate duplicate resources.
