@@ -33,7 +33,6 @@ var JavaScriptFileType = function(project) {
     this.newres = this.API.newTranslationSet(project.getSourceLocale());
     this.pseudo = this.API.newTranslationSet(project.getSourceLocale());
     this.logger = this.API.getLogger("loctool.plugin.webOSJSFileType");
-
     if (project.pseudoLocale && typeof project.pseudoLocale === "string") {
         project.pseudoLocale = [project.pseudoLocale];
     }
@@ -133,7 +132,6 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
 
                 baseLocale = Utils.isBaseLocale(locale);
                 langDefaultLocale = Utils.getBaseLocale(locale);
-                
                 baseTranslation = res.getSource();
 
                 if (baseLocale){
