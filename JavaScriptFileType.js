@@ -59,6 +59,10 @@ var JavaScriptFileType = function(project) {
     if (!project.settings.nopseudo) {
         this.missingPseudo = this.API.getPseudoBundle(project.pseudoLocale, this, project);
     }
+
+    if (project.settings.localeMap) {
+        Utils.setBaseLocale(this.project.localeMap);
+    }
 };
 
 var alreadyLocJS = new RegExp(/\.([a-z][a-z](-[A-Z][a-z][a-z][a-z])?(-[A-Z][A-Z](-[A-Z]+)?)?)\.js$/);
@@ -116,11 +120,6 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
         translationLocales = locales.filter(function(locale) {
             return locale !== this.project.sourceLocale && locale !== this.project.pseudoLocale;
         }.bind(this));
-
-
-    if (this.project.localeMap) {
-        Utils.setBaseLocale(this.project.localeMap);
-    }
 
     if (mode === "localize") {
         for (var i = 0; i < resources.length; i++) {
