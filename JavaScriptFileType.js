@@ -60,7 +60,7 @@ var JavaScriptFileType = function(project) {
         this.missingPseudo = this.API.getPseudoBundle(project.pseudoLocale, this, project);
     }
 
-    if (project.settings.localeMap) {
+    if (project.localeMap) {
         Utils.setBaseLocale(this.project.localeMap);
     }
 };
