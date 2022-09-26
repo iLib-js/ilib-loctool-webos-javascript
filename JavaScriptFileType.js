@@ -119,7 +119,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
 
 
     if (this.project.settings.localeMap) {
-        Utils.setBaseLocale(this.project.settings.localeMap);
+        Utils.setBaseLocale(this.project.localeMap);
     }
 
     if (mode === "localize") {
