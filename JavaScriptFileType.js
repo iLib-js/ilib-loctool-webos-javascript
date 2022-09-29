@@ -61,7 +61,7 @@ var JavaScriptFileType = function(project) {
     }
 
     if (Object.keys(project.localeMap).length > 0){
-        Utils.setBaseLocale(props.project.localeMap);
+        Utils.setBaseLocale(project.localeMap);
     }
 };
 
