@@ -182,7 +182,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
         }.bind(this));
     } else {
         // generate mode
-        resources = this.project.db.ts.resources;
+        resources = this.project.getTranslations(translationLocales);
     }
     for (var i = 0; i < resources.length; i++) {
         res = resources[i];
