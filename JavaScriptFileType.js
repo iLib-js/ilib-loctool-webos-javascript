@@ -59,6 +59,10 @@ var JavaScriptFileType = function(project) {
     if (!project.settings.nopseudo) {
         this.missingPseudo = this.API.getPseudoBundle(project.pseudoLocale, this, project);
     }
+
+    if (Object.keys(project.localeMap).length > 0){
+        Utils.setBaseLocale(project.localeMap);
+    }
 };
 
 var alreadyLocJS = new RegExp(/\.([a-z][a-z](-[A-Z][a-z][a-z][a-z])?(-[A-Z][A-Z](-[A-Z]+)?)?)\.js$/);
