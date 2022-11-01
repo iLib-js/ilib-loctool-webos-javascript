@@ -114,6 +114,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
     var resFileType = this.project.getResourceFileType(this.resourceType);
     var mode = this.project.settings.mode;
     var baseLocale, langDefaultLocale, baseTranslation;
+    var customInheritLocale;
     var res, file,
         resources = this.extracted.getAll(),
         db = this.project.db,
@@ -131,6 +132,11 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
 
                 baseLocale = Utils.isBaseLocale(locale);
                 langDefaultLocale = Utils.getBaseLocale(locale);
+                customInheritLocale = this.project.getLocaleInherit(locale);
+
+                if (customInheritLocale) {
+                    langDefaultLocale = customInheritLocale;
+                }
                 baseTranslation = res.getSource();
 
                 if (baseLocale){
@@ -146,7 +152,23 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                 }
                 db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
                     var r = translated;
-                    if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
+                    if (!translated && customInheritLocale){
+                        db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
+                            if (translated) {
+                                translated.setTargetLocale(locale);
+                                file = resFileType.getResourceFile(locale);
+                                file.addResource(translated);
+                            } else {
+                                var newres = res.clone();
+                                newres.setTargetLocale(locale);
+                                newres.setTarget((r && r.getTarget()) || res.getSource());
+                                newres.setState("new");
+                                newres.setComment(note);
+                                this.newres.add(newres);
+                                this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                            }
+                        }.bind(this));
+                    } else if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
                         this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey()))) {
                         if (r) {
                             this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
