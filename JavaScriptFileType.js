@@ -17,6 +17,8 @@
  * limitations under the License.
  */
 
+var fs = require("fs");
+var path = require("path");
 var JavaScriptFile = require("./JavaScriptFile.js");
 var JavaScriptResourceFileType = require("ilib-loctool-webos-json-resource");
 var Utils = require("loctool/lib/utils.js")
@@ -26,7 +28,7 @@ var JavaScriptFileType = function(project) {
     this.datatype = "javascript";
     this.resourceType = "json";
     this.extensions = [".js", ".jsx"];
-
+    this.isloadCommonData = false;
     this.project = project;
     this.API = project.getAPI();
     this.extracted = this.API.newTranslationSet(project.getSourceLocale());
@@ -58,6 +60,23 @@ var JavaScriptFileType = function(project) {
     // for use with missing strings
     if (!project.settings.nopseudo) {
         this.missingPseudo = this.API.getPseudoBundle(project.pseudoLocale, this, project);
+    }
+
+    if (project.settings.webos["commonXliff"]){
+        this.commonPath = project.settings.webos["commonXliff"];
+        /*if (fs.existsSync(commonPath)){
+            var list = fs.readdirSync(commonPath);
+            console.log(list);
+        }
+        list.forEach(function(file){
+            var xxx = this.API.newXliff(project);
+            var pathName = path.join(commonPath, file);
+            var data = fs.readFileSync(pathName, "utf-8");
+            xxx.deserialize(data);
+            var cts = xxx.getTranslationSet();
+            this.ts.add(cts);
+        }.bind(this));
+        */
     }
 
     if (Object.keys(project.localeMap).length > 0){
@@ -122,6 +141,11 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
             return locale !== this.project.sourceLocale && locale !== this.project.pseudoLocale;
         }.bind(this));
 
+    if (this.commonPath && !this.isloadCommonData) {
+        this._loadCommonXliff();
+        this.isloadCommonData = true;
+    }
+
     if (mode === "localize") {
         for (var i = 0; i < resources.length; i++) {
             res = resources[i];
@@ -131,6 +155,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                 this.logger.trace("Localizing JavaScript strings to " + locale);
 
                 baseLocale = Utils.isBaseLocale(locale);
+
                 langDefaultLocale = Utils.getBaseLocale(locale);
                 customInheritLocale = this.project.getLocaleInherit(locale);
 
@@ -230,6 +255,10 @@ JavaScriptFileType.prototype.newFile = function(path) {
 
 JavaScriptFileType.prototype.getDataType = function() {
     return this.datatype;
+};
+
+JavaScriptFileType.prototype._loadCommonXliff = function() {
+    console.log("!!");
 };
 
 JavaScriptFileType.prototype.getResourceTypes = function() {
