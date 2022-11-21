@@ -142,7 +142,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
         }.bind(this));
 
     if (this.commonPath && !this.isloadCommonData) {
-        this._loadCommonXliff();
+        this._loadCommonXliff(translationLocales);
         this.isloadCommonData = true;
     }
 
@@ -258,7 +258,25 @@ JavaScriptFileType.prototype.getDataType = function() {
 };
 
 JavaScriptFileType.prototype._loadCommonXliff = function() {
-    console.log("!!");
+    
+    if (fs.existsSync(this.commonPath)){
+        var list = fs.readdirSync(this.commonPath);
+        console.log(list);
+    }
+    list.forEach(function(file){
+        var xxx = this.API.newXliff(this.project);
+        var pathName = path.join(this.commonPath, file);
+        var data = fs.readFileSync(pathName, "utf-8");
+        xxx.deserialize(data);
+        var res = xxx.getResources();
+        //this.project.getTranslations(translationLocales);
+        this.ts = this.project.getTranslationSet()
+        for(var i=0;  i< res.length;i++){
+            this.ts.add(res[i]);
+        }
+        console.log("!!!!");
+        //this.ts.add(cts);
+    }.bind(this));
 };
 
 JavaScriptFileType.prototype.getResourceTypes = function() {
