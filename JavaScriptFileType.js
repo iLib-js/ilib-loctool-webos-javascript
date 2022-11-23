@@ -294,7 +294,6 @@ JavaScriptFileType.prototype._loadCommonXliff = function() {
         var data = fs.readFileSync(pathName, "utf-8");
         commonXliff.deserialize(data);
         var resources = commonXliff.getResources();
-        //this.ts = this.project.getTranslationSet();
         this.ts = this.project.db.ts;
         if (resources.length > 0){
             this.commonPrjName = resources[0].getProject();
