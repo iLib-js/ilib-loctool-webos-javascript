@@ -282,13 +282,16 @@ JavaScriptFileType.prototype.getDataType = function() {
 };
 
 JavaScriptFileType.prototype._loadCommonXliff = function() {
-    
     if (fs.existsSync(this.commonPath)){
         var list = fs.readdirSync(this.commonPath);
         console.log(list);
     }
     list.forEach(function(file){
-        var commonXliff = this.API.newXliff(this.project);
+        var commonXliff = this.API.newXliff({
+            sourceLocale: this.project.getSourceLocale(),
+            project: this.project.getProjectId(),
+            path: this.commonPath,
+        });
         var pathName = path.join(this.commonPath, file);
         var data = fs.readFileSync(pathName, "utf-8");
         commonXliff.deserialize(data);
