@@ -15,7 +15,7 @@ v1.6.0
         }
     ~~~~
 * Added ability to use common locale data.
-  * App's xliff data has a higher priority, it there's no matched strings there, then loctool checks data in common directory
+  * App's xliff data has a higher priority, if there's no matched string there, then loctool checks data in the commonXliff directory.
     ~~~~
        "settings": {
             "webos": {
