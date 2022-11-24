@@ -142,7 +142,6 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                 this.logger.trace("Localizing JavaScript strings to " + locale);
 
                 baseLocale = Utils.isBaseLocale(locale);
-
                 langDefaultLocale = Utils.getBaseLocale(locale);
                 customInheritLocale = this.project.getLocaleInherit(locale);
 
