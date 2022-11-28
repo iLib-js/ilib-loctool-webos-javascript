@@ -283,7 +283,6 @@ JavaScriptFileType.prototype.getDataType = function() {
 JavaScriptFileType.prototype._loadCommonXliff = function() {
     if (fs.existsSync(this.commonPath)){
         var list = fs.readdirSync(this.commonPath);
-        console.log(list);
     }
     list.forEach(function(file){
         var commonXliff = this.API.newXliff({
