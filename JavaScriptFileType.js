@@ -22,6 +22,7 @@ var path = require("path");
 var JavaScriptFile = require("./JavaScriptFile.js");
 var JavaScriptResourceFileType = require("ilib-loctool-webos-json-resource");
 var Utils = require("loctool/lib/utils.js")
+var ResourceString = require("loctool/lib/ResourceString.js");
 
 var JavaScriptFileType = function(project) {
     this.type = "javascript";
@@ -165,9 +166,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                     var r = translated;
 
                     if (!translated && this.isloadCommonData) {
-                        var manipulateKey = res.cleanHashKeyForTranslation(locale).
-                                        replace(res.getProject(), this.commonPrjName).
-                                        replace(res.getDataType(), this.commonPrjType);
+                        var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
                         db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                             if (translated) {
                                 translated.project = res.getProject();
