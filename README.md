@@ -5,12 +5,36 @@ allows it to read and localize javascript files. This plugins is optimized for w
 
 ## Release Notes
 v1.6.0
-* Updated dependencies. (loctool: 2.19.0)
+* Updated dependencies. (loctool: 2.20.0)
 * Added ability to define custom locale inheritance.
+    ~~~~
+       "settings": {
+            "localeInherit": {
+                "en-AU": "en-GB"
+            }
+        }
+    ~~~~
+* Added ability to use common locale data.
+  * App's xliff data has a higher priority, if there's no matched string there, then loctool checks data in the commonXliff directory.
+    ~~~~
+       "settings": {
+            "webos": {
+                "commonXliff": "./common"
+            }
+        }
+    ~~~~
+
 
 v1.5.0
 * Updated dependencies. (loctool: 2.18.0)
 * Added ability to override language default locale.
+    ~~~~
+       "settings": {
+            "localeMap": {
+                "es-CO": "es"
+            }
+        }
+    ~~~~
 * Updated generate mode to use loctool's new public method.
 
 v1.4.7
