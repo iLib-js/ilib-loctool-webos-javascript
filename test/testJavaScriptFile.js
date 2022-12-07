@@ -229,7 +229,7 @@ module.exports.javascriptfile = {
         });
         test.ok(j);
 
-        j.parse("$L({key:  'speaker_channel', value:   'Channel'})");
+        j.parse("$L( { key:  'speaker_channel', value:   'Channel' } )");
 
         var set = j.getTranslationSet();
         test.ok(set);
