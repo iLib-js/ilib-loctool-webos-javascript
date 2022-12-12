@@ -23,6 +23,7 @@ v1.6.0
             }
         }
     ~~~~
+* Fixed an issue where multi-space could not be properly parsed in key-value use cases.
 
 
 v1.5.0

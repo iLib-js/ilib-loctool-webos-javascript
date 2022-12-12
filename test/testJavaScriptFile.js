@@ -229,6 +229,28 @@ module.exports.javascriptfile = {
         });
         test.ok(j);
 
+        j.parse("$L({key: 'speaker_channel', value: 'Channel'})");
+
+        var set = j.getTranslationSet();
+        test.ok(set);
+
+        var r = set.getBySource("Channel");
+        test.ok(r);
+        test.equal(r.getSource(), "Channel");
+        test.equal(r.getKey(), "speaker_channel");
+
+        test.done();
+    },
+    testJavaScriptFileParseSimpleSingleQuotesByKeyValue4: function(test) {
+        test.expect(5);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        test.ok(j);
+
         j.parse("$L( { key:  'speaker_channel', value:   'Channel' } )");
 
         var set = j.getTranslationSet();
