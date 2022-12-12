@@ -119,7 +119,7 @@ var reGetStringBogusParam = new RegExp(/\.getString(JS)?\s*\([^"'\)]*\)/g);
 
 var reGetString = new RegExp(/\.getString(JS)?\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
 var reGetStringSymbol = new RegExp(/(^\$|\W\$)L?\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
-var reGetStringSymbolKeyValuePattern = new RegExp(/(?:^\$|\W\$)L?\s*\(\s*{(key|value)\:\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\,\s*(key|value)\:\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\}\)/g);
+var reGetStringSymbolKeyValuePattern = new RegExp(/(?:^\$|\W\$)L?\s*\(\s*{\s*(key|value)\:\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\,\s*(key|value)\:\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\}\s*\)/g);
 
 var reGetStringWithId = new RegExp(/\.getString(JS)?\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*,\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
 
