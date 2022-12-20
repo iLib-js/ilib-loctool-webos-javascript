@@ -341,25 +341,28 @@ JavaScriptFileType.prototype._loadCommonXliff = function() {
     if (fs.existsSync(this.commonPath)){
         var list = fs.readdirSync(this.commonPath);
     }
-    list.forEach(function(file){
-        var commonXliff = this.API.newXliff({
-            sourceLocale: this.project.getSourceLocale(),
-            project: this.project.getProjectId(),
-            path: this.commonPath,
-        });
-        var pathName = path.join(this.commonPath, file);
-        var data = fs.readFileSync(pathName, "utf-8");
-        commonXliff.deserialize(data);
-        var resources = commonXliff.getResources();
-        var localts = this.project.getRepository().getTranslationSet();
-        if (resources.length > 0){
-            this.commonPrjName = resources[0].getProject();
-            this.commonPrjType = resources[0].getDataType();
-            resources.forEach(function(res){
-                localts.add(res);
-            }.bind(this));
-        }
-    }.bind(this));
+    if (list && list.length !== 0) {
+        list.forEach(function(file){
+            var commonXliff = this.API.newXliff({
+                sourceLocale: this.project.getSourceLocale(),
+                project: this.project.getProjectId(),
+                path: this.commonPath,
+            });
+            var pathName = path.join(this.commonPath, file);
+            var data = fs.readFileSync(pathName, "utf-8");
+            commonXliff.deserialize(data);
+            var resources = commonXliff.getResources();
+            var localts = this.project.getRepository().getTranslationSet();
+            if (resources.length > 0){
+                this.commonPrjName = resources[0].getProject();
+                this.commonPrjType = resources[0].getDataType();
+                resources.forEach(function(res){
+                    localts.add(res);
+                }.bind(this));
+            }
+        }.bind(this));
+    }
+    
 };
 
 JavaScriptFileType.prototype.getResourceTypes = function() {
