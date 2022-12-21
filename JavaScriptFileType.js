@@ -262,7 +262,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
 
         if (this.customInherit.length > 0) {
             this.customInherit.forEach(function(lo){
-                var res = this.project.getTranslations(lo);
+                var res = this.project.getTranslations([lo]);
                 if (res.length == 0) {
                     var inheritlocale = this.project.getLocaleInherit(lo);
                     var inheritlocaleRes = this.project.getTranslations([inheritlocale]);
@@ -314,10 +314,8 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                 }
             }.bind(this));
 
-            if (locale == "en-US" && res.getSource() !== res.getTarget()){
-                file = resFileType.getResourceFile(res.getTargetLocale());
-                file.addResource(res);
-            } else if (baseTranslation !== res.getTarget()){
+            if ((locale == "en-US" && res.getSource() !== res.getTarget()) ||
+                (baseTranslation !== res.getTarget())) {
                 file = resFileType.getResourceFile(res.getTargetLocale());
                 file.addResource(res);
             }
