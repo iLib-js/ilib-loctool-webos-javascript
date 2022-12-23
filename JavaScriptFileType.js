@@ -166,10 +166,11 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                         var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
                         db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                             if (translated && (baseTranslation !== translated.getTarget())){
-                                translated.project = res.getProject();
-                                translated.datatype=res.getDataType();
+                                var newres = translated.clone();
+                                newres.project = res.getProject();
+                                newres.datatype = res.getDataType();
                                 file = resFileType.getResourceFile(locale);
-                                file.addResource(translated);
+                                file.addResource(newres);
                             } else if(!translated && customInheritLocale){
                                 db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
                                     if (translated && (baseTranslation !== translated.getTarget())){
