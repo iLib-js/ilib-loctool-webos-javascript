@@ -146,9 +146,6 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                 langDefaultLocale = Utils.getBaseLocale(locale);
                 customInheritLocale = this.project.getLocaleInherit(locale);
 
-                if (customInheritLocale) {
-                    langDefaultLocale = customInheritLocale;
-                }
                 baseTranslation = res.getSource();
 
                 if (baseLocale){
@@ -175,10 +172,11 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                                 file.addResource(translated);
                             } else if(!translated && customInheritLocale){
                                 db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
-                                    if (translated){
-                                        translated.setTargetLocale(locale);
+                                    if (translated && (baseTranslation !== translated.getTarget())){
+                                        var newres = translated.clone();
+                                        newres.setTargetLocale(locale);
                                         file = resFileType.getResourceFile(locale);
-                                        file.addResource(translated);
+                                        file.addResource(newres);
                                     } else {
                                         var newres = res.clone();
                                         newres.setTargetLocale(locale);
@@ -201,10 +199,11 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                         }.bind(this));
                     } else if (!translated && customInheritLocale){
                         db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
-                            if (translated) {
-                                translated.setTargetLocale(locale);
+                            if (translated && (baseTranslation != translated.getTarget())) {
+                                var newres = translated.clone();
+                                newres.setTargetLocale(locale);
                                 file = resFileType.getResourceFile(locale);
-                                file.addResource(translated);
+                                file.addResource(newres);
                             } else {
                                 var newres = res.clone();
                                 newres.setTargetLocale(locale);
@@ -255,7 +254,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
         }.bind(this));
     } else {
         // generate mode
-        resources = this.project.getTranslations(translationLocales);
+        this.genresources = this.project.getTranslations(translationLocales);
         this.customInherit = translationLocales.filter(function(locale){
             return this.project.getLocaleInherit(locale) !== undefined;
         }.bind(this));
@@ -266,11 +265,10 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                 if (res.length == 0) {
                     var inheritlocale = this.project.getLocaleInherit(lo);
                     var inheritlocaleRes = this.project.getTranslations([inheritlocale]);
-                    inheritlocaleRes.forEach(function(resource){
-                        var newres = resource.clone();
-                        newres.setTargetLocale(lo)
-                        file = resFileType.getResourceFile(lo);
-                        file.addResource(newres);
+                    inheritlocaleRes.forEach(function(r){
+                        var newres = r.clone();
+                        newres.setTargetLocale(lo);
+                        this.genresources.push(newres);
                     }.bind(this))
                 }
             }.bind(this));
@@ -289,13 +287,13 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
     } else {
         // generate mode:  compare baseTranslation data
         var locale;
-        for (var i = 0; i< resources.length;i++) {
-            res = resources[i];
+        for (var i = 0; i< this.genresources.length;i++) {
+            res = this.genresources[i];
             locale = res.getTargetLocale();
             baseLocale = Utils.isBaseLocale(locale);
             langDefaultLocale = Utils.getBaseLocale(locale);
             baseTranslation = res.getSource();
-            
+
             if (baseLocale){
                 langDefaultLocale = "en-US";
             }
