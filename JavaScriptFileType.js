@@ -103,6 +103,16 @@ JavaScriptFileType.prototype.name = function() {
     return "JavaScript File Type";
 };
 
+JavaScriptFileType.prototype._addResource = function(resFileType, translated, res, locale) {
+    var file;
+    var resource = translated.clone();
+    resource.project = res.getProject();
+    resource.datatype = res.getDataType();
+    resource.setTargetLocale(locale);
+    file = resFileType.getResourceFile(locale);
+    file.addResource(resource);
+}
+
 /**
  * Write out the aggregated resources for this file type. In
  * some cases, the string are written out to a common resource
@@ -166,18 +176,11 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                         var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
                         db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                             if (translated && (baseTranslation !== translated.getTarget())){
-                                var newres = translated.clone();
-                                newres.project = res.getProject();
-                                newres.datatype = res.getDataType();
-                                file = resFileType.getResourceFile(locale);
-                                file.addResource(newres);
+                                this._addResource(resFileType, translated, res, locale);
                             } else if(!translated && customInheritLocale){
                                 db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
                                     if (translated && (baseTranslation !== translated.getTarget())){
-                                        var newres = translated.clone();
-                                        newres.setTargetLocale(locale);
-                                        file = resFileType.getResourceFile(locale);
-                                        file.addResource(newres);
+                                        this._addResource(resFileType, translated, res, locale);
                                     } else {
                                         var newres = res.clone();
                                         newres.setTargetLocale(locale);
@@ -201,10 +204,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                     } else if (!translated && customInheritLocale){
                         db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
                             if (translated && (baseTranslation != translated.getTarget())) {
-                                var newres = translated.clone();
-                                newres.setTargetLocale(locale);
-                                file = resFileType.getResourceFile(locale);
-                                file.addResource(newres);
+                                this._addResource(resFileType, translated, res, locale);
                             } else {
                                 var newres = res.clone();
                                 newres.setTargetLocale(locale);
@@ -263,7 +263,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
         if (this.customInherit.length > 0) {
             this.customInherit.forEach(function(lo){
                 var res = this.project.getTranslations([lo]);
-                if (res.length == 0) {
+                if (res.length === 0) {
                     var inheritlocale = this.project.getLocaleInherit(lo);
                     var inheritlocaleRes = this.project.getTranslations([inheritlocale]);
                     inheritlocaleRes.forEach(function(r){
@@ -396,7 +396,6 @@ JavaScriptFileType.prototype.generatePseudo = function(locale, pb) {
         sourceLocale: pb.getSourceLocale()
     });
     this.logger.trace("Found " + resources.length + " source resources for " + pb.getSourceLocale());
-    var resource;
 
     resources.forEach(function(resource) {
         this.logger.trace("Generating pseudo for " + resource.getKey());
