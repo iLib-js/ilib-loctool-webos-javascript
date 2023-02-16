@@ -1,7 +1,7 @@
 /*
  * JavaScriptFileType.js - Represents a collection of javasript files
  *
- * Copyright (c) 2019-2022, JEDLSoft
+ * Copyright (c) 2019-2023, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -179,7 +179,23 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                                 this._addResource(resFileType, translated, res, locale);
                             } else if(!translated && customInheritLocale){
                                 db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
-                                    if (translated && (baseTranslation !== translated.getTarget())){
+                                    if (!translated) {
+                                        var manipulateKey = ResourceString.hashKey(this.commonPrjName, customInheritLocale, res.getKey(), this.commonPrjType, res.getFlavor());
+                                        db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
+                                            if (translated && (baseTranslation !== translated.getTarget())) {
+                                                this._addResource(resFileType, translated, res, locale);
+                                            } else {
+                                                var newres = res.clone();
+                                                newres.setTargetLocale(locale);
+                                                newres.setTarget((r && r.getTarget()) || res.getSource());
+                                                newres.setState("new");
+                                                newres.setComment(note);
+                                                this.newres.add(newres);
+                                                this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                                            }
+                                        }.bind(this))
+
+                                    } else if (translated && (baseTranslation !== translated.getTarget())){
                                         this._addResource(resFileType, translated, res, locale);
                                     } else {
                                         var newres = res.clone();
