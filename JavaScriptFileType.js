@@ -105,6 +105,12 @@ JavaScriptFileType.prototype.name = function() {
 
 JavaScriptFileType.prototype._addResource = function(resFileType, translated, res, locale) {
     var file;
+
+    // if reskeys don't match, we matched on cleaned string.
+    // so we need to overwrite reskey of the translated resource to match
+    if (translated.reskey !== res.reskey) {
+        translated.reskey = res.reskey;
+    }
     var resource = translated.clone();
     resource.project = res.getProject();
     resource.datatype = res.getDataType();
