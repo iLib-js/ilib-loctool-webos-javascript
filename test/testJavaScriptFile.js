@@ -1,7 +1,7 @@
 /*
  * testJavaScriptFile.js - test the JavaScript file handler object.
  *
- * Copyright (c) 2019-2022, JEDLSoft
+ * Copyright (c) 2019-2023, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,6 @@ module.exports.javascriptfile = {
         test.ok(j);
         test.done();
     },
-
     testJavaScriptFileConstructorParams: function(test) {
         test.expect(1);
 
@@ -55,7 +54,6 @@ module.exports.javascriptfile = {
         test.ok(j);
         test.done();
     },
-
     testJavaScriptFileConstructorNoFile: function(test) {
         test.expect(1);
 
@@ -67,7 +65,6 @@ module.exports.javascriptfile = {
         test.ok(j);
         test.done();
     },
-
     testJavaScriptFileMakeKey: function(test) {
         test.expect(2);
 
@@ -80,7 +77,6 @@ module.exports.javascriptfile = {
         test.equal(j.makeKey("This is a test"), "This is a test");
         test.done();
     },
-
     testJavaScriptFileParseSimpleGetByKey: function(test) {
         test.expect(5);
 
@@ -106,7 +102,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseSimpleGetBySource: function(test) {
         test.expect(5);
 
@@ -129,7 +124,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseJSSimpleGetBySource: function(test) {
         test.expect(5);
 
@@ -152,7 +146,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseSimpleSingleQuotes: function(test) {
         test.expect(5);
 
@@ -285,7 +278,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseMoreComplexSingleQuotes: function(test) {
         test.expect(5);
 
@@ -308,7 +300,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseSimpleIgnoreWhitespace: function(test) {
         test.expect(5);
 
@@ -331,7 +322,26 @@ module.exports.javascriptfile = {
 
         test.done();
     },
+    testJavaScriptFileParseSimpleIgnoreWhitespace2: function(test) {
+        test.expect(5);
 
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: "./js/t1.js",
+            type: jsft
+        });
+        test.ok(j);
+        j.extract();
+        var set = j.getTranslationSet();
+        test.ok(set);
+
+        var r = set.getBySource("Go to  'Settings > General > Channels > Channel Tuning & Settings > Transponder Edit' and add one.");
+        test.ok(r);
+        test.equal(r.getSource(), "Go to  'Settings > General > Channels > Channel Tuning & Settings > Transponder Edit' and add one.");
+        test.equal(r.getKey(), "Go to 'Settings > General > Channels > Channel Tuning & Settings > Transponder Edit' and add one.");
+
+        test.done();
+    },
     testJavaScriptFileParseJSCompressWhitespaceInKey: function(test) {
         test.expect(5);
 
@@ -354,7 +364,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseSimpleRightSize: function(test) {
         test.expect(4);
 
@@ -376,7 +385,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseSimpleWithTranslatorComment: function(test) {
         test.expect(6);
 
@@ -400,7 +408,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseSingleQuotesWithTranslatorComment: function(test) {
         test.expect(6);
 
@@ -424,7 +431,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseSingleQuotesWithEmbeddedSingleQuotes: function(test) {
         test.expect(5);
 
@@ -452,7 +458,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseSingleQuotesWithEmbeddedDoubleQuotes: function(test) {
         test.expect(5);
 
@@ -480,7 +485,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseSimpleWithUniqueIdAndTranslatorComment: function(test) {
         test.expect(6);
 
@@ -506,7 +510,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseWithKey: function(test) {
         test.expect(5);
 
@@ -531,7 +534,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseJSWithKey: function(test) {
         test.expect(5);
 
@@ -556,7 +558,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseWithKeySingleQuotes: function(test) {
         test.expect(5);
 
@@ -581,7 +582,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseJSWithKeySingleQuotes: function(test) {
         test.expect(5);
 
@@ -606,7 +606,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseWithKeyCantGetBySource: function(test) {
         test.expect(3);
 
@@ -627,7 +626,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseMultiple: function(test) {
         test.expect(8);
 
@@ -655,7 +653,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseMultipleWithKey: function(test) {
         test.expect(10);
 
@@ -689,7 +686,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseMultipleSameLine: function(test) {
         test.expect(12);
 
@@ -724,7 +720,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseMultipleWithComments: function(test) {
         test.expect(10);
 
@@ -754,7 +749,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseMultipleWithUniqueIdsAndComments: function(test) {
         test.expect(10);
 
@@ -788,7 +782,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseWithDups: function(test) {
         test.expect(6);
 
@@ -813,7 +806,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseDupsDifferingByKeyOnly: function(test) {
         test.expect(8);
 
@@ -843,7 +835,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseBogusConcatenation: function(test) {
         test.expect(2);
 
@@ -862,7 +853,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseBogusConcatenation2: function(test) {
         test.expect(2);
 
@@ -880,7 +870,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseBogusNonStringParam: function(test) {
         test.expect(2);
 
@@ -898,7 +887,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseEmptyParams: function(test) {
         test.expect(2);
 
@@ -916,7 +904,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseWholeWord: function(test) {
         test.expect(2);
 
@@ -934,7 +921,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseSubobject: function(test) {
         test.expect(2);
 
@@ -952,7 +938,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParsePunctuationBeforeRB: function(test) {
         test.expect(9);
 
@@ -990,7 +975,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileParseEmptyString: function(test) {
         test.expect(3);
 
@@ -1010,7 +994,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileExtractFile: function(test) {
         test.expect(8);
 
@@ -1024,7 +1007,7 @@ module.exports.javascriptfile = {
         // should read the file
         j.extract();
         var set = j.getTranslationSet();
-        test.equal(set.size(), 8);
+        test.equal(set.size(), 9);
 
         var r = set.getBySource("This is a test");
         test.ok(r);
@@ -1040,7 +1023,6 @@ module.exports.javascriptfile = {
 
         test.done();
     },
-
     testJavaScriptFileExtractUndefinedFile: function(test) {
         test.expect(2);
 
