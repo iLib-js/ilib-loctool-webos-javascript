@@ -172,7 +172,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                     db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(langDefaultLocale), function(err, translated) {
                         if (translated) {
                             baseTranslation = translated.getTarget();
-                        } else if (!translated && this.isloadCommonData) {
+                        } else if (this.isloadCommonData) {
                             var manipulateKey = ResourceString.hashKey(this.commonPrjName, langDefaultLocale, res.getKey(), this.commonPrjType, res.getFlavor());
                             db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                                 if (translated){
