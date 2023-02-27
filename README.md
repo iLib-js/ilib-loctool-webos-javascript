@@ -5,6 +5,7 @@ allows it to read and localize javascript files. This plugins is optimized for w
 
 ## Release Notes
 v1.8.0
+* Updated dependencies. (loctool: 2.20.2)
 * Fixed an issue where common's locale inheritance data values were not checked.
 * Updated to match translation's reskey and resource's reskey when they are different.
 * Updated to check common data's as well when getting base translation.
