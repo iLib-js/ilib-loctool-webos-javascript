@@ -5,7 +5,7 @@ allows it to read and localize javascript files. This plugins is optimized for w
 
 ## Release Notes
 v1.8.3
-* Fixed not to repeately load common data if it's loaded from another plugin in a project.
+* Fixed not to load common data repeatedly if it's loaded from another plugin in a project.
 
 v1.8.2
 * Updated dependencies.
