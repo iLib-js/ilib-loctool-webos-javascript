@@ -145,6 +145,11 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
             return locale !== this.project.sourceLocale && locale !== this.project.pseudoLocale;
         }.bind(this));
 
+    if ((typeof(translations) !== 'undefined') && (typeof(translations.getProjects() !== 'undefined') &&
+        translations.getProjects().includes("common"))) {
+        this.isloadCommonData = true;
+    }
+
     if (this.commonPath && !this.isloadCommonData) {
         this._loadCommonXliff();
         this.isloadCommonData = true;
