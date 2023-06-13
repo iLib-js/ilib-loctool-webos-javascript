@@ -145,9 +145,15 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
             return locale !== this.project.sourceLocale && locale !== this.project.pseudoLocale;
         }.bind(this));
 
-    if (this.commonPath && !this.isloadCommonData) {
-        this._loadCommonXliff();
+    if ((typeof(translations) !== 'undefined') && (typeof(translations.getProjects()) !== 'undefined') && (translations.getProjects().includes("common"))) {
         this.isloadCommonData = true;
+    }
+    if (this.commonPath) {
+        if (!this.isloadCommonData) {
+            this._loadCommonXliff();
+            this.isloadCommonData = true;
+        }
+        this._addCommonData(translations);
     }
 
     if (mode === "localize") {
@@ -362,6 +368,18 @@ JavaScriptFileType.prototype.newFile = function(path) {
 JavaScriptFileType.prototype.getDataType = function() {
     return this.datatype;
 };
+
+JavaScriptFileType.prototype._addCommonData = function(tsdata) {
+    var prots = this.project.getRepository().getTranslationSet();
+    var commonts = tsdata.getBy({project:"common"});
+    if (commonts.length > 0){
+        this.commonPrjName = commonts[0].getProject();
+        this.commonPrjType = commonts[0].getDataType();
+        commonts.forEach(function(ts){
+            prots.add(ts);
+        }.bind(this));
+    }
+}
 
 JavaScriptFileType.prototype._loadCommonXliff = function() {
     if (fs.existsSync(this.commonPath)){
