@@ -153,7 +153,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
             this._loadCommonXliff();
             this.isloadCommonData = true;
         }
-        this._addCommonData(translations);
+        this._addCommonDataTranslationSet(translations);
     }
 
     if (mode === "localize") {
@@ -369,9 +369,9 @@ JavaScriptFileType.prototype.getDataType = function() {
     return this.datatype;
 };
 
-JavaScriptFileType.prototype._addCommonData = function(tsdata) {
+JavaScriptFileType.prototype._addCommonDataTranslationSet = function(tsdata) {
     var prots = this.project.getRepository().getTranslationSet();
-    var commonts = tsdata.getBy({project:"common"});
+    var commonts = tsdata.getBy({project: "common"});
     if (commonts.length > 0){
         this.commonPrjName = commonts[0].getProject();
         this.commonPrjType = commonts[0].getDataType();
