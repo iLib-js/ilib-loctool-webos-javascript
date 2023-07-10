@@ -5,6 +5,7 @@ allows it to read and localize javascript files. This plugins is optimized for w
 
 ## Release Notes
 v1.9.0
+* Updated dependencies. (loctool: 2.21.0)
 * Updated not to load common data repeatedly if it's loaded from another plugin in a project.
 
 v1.8.2
