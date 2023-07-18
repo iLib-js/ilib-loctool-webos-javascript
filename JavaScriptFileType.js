@@ -1,5 +1,5 @@
 /*
- * JavaScriptFileType.js - Represents a collection of javasript files
+ * JavaScriptFileType.js - Represents a collection of JavaScript files
  *
  * Copyright (c) 2019-2023, JEDLSoft
  *
@@ -75,11 +75,11 @@ var JavaScriptFileType = function(project) {
 var alreadyLocJS = new RegExp(/\.([a-z][a-z](-[A-Z][a-z][a-z][a-z])?(-[A-Z][A-Z](-[A-Z]+)?)?)\.js$/);
 
 /**
- * Return true if the given path is a java file and is handled
+ * Return true if the given path is a JavaScript file and is handled
  * by the current file type.
  *
  * @param {String} pathName path to the file being questions
- * @returns {boolean} true if the path is a java file, or false
+ * @returns {boolean} true if the path is a JavaScript file, or false
  * otherwise
  */
 JavaScriptFileType.prototype.handles = function(pathName) {
