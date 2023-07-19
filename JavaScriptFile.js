@@ -21,7 +21,7 @@ var fs = require("fs");
 var path = require("path");
 
 /**
- * Create a new java file with the given path name and within
+ * Create a new JavaScript file with the given path name and within
  * the given project.
  *
  * @param {Project} project the project object
@@ -101,7 +101,7 @@ JavaScriptFile.trimComments = function(data) {
  * Make a new key for the given string. This must correspond
  * exactly with the code in htglob jar file so that the
  * resources match up. See the class IResourceBundle in
- * this project under the java directory for the corresponding
+ * this project under the JavaScript directory for the corresponding
  * code.
  *
  * @private
@@ -317,7 +317,7 @@ JavaScriptFile.prototype.parse = function(data) {
 };
 
 /**
- * Extract all the localizable strings from the java file and add them to the
+ * Extract all the localizable strings from the JavaScript file and add them to the
  * project's translation set.
  */
 JavaScriptFile.prototype.extract = function() {
