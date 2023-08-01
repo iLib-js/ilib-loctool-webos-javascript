@@ -10,7 +10,7 @@ v1.10.0
     ~~~~
        "settings": {
             "allowPseudo": {
-                "javascript": "false"
+                "javascript": false
             }
         }
     ~~~~
