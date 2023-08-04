@@ -40,7 +40,6 @@ module.exports.javascriptfiletype = {
 
         test.done();
     },
-
     testJavaScriptFileTypeHandlesJSTrue: function(test) {
         test.expect(2);
 
@@ -51,7 +50,6 @@ module.exports.javascriptfiletype = {
 
         test.done();
     },
-
     testJavaScriptFileTypeHandlesJSXTrue: function(test) {
         test.expect(2);
 

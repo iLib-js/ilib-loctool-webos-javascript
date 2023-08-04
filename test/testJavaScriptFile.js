@@ -1085,7 +1085,7 @@ module.exports.javascriptfile = {
             type: "javascript"
         });
         var rs2 = r.generatePseudo("zxx-XX", rb);
-        test.equal(rs2.getTarget(),"Ťĥíš íš à ţëšţ6543210");
+        test.equal(rs2.getTarget(),"[Ťĥíš íš à ţëšţ6543210]");
         test.done();
     },
     testJavaScriptPseudoLocalization2: function(test) {
@@ -1110,7 +1110,7 @@ module.exports.javascriptfile = {
             targetLocale: "zxx-Hans-XX"
         });
         var rs2 = r.generatePseudo("zxx-Hans-XX", rb);
-        test.equal(rs2.getTarget(),"推和意思意思阿推俄思推6543210");
+        test.equal(rs2.getTarget(),"[推和意思意思阿推俄思推6543210]");
         test.done();
     },
     testJavaScriptPseudoLocalization3: function(test) {
@@ -1135,7 +1135,7 @@ module.exports.javascriptfile = {
             targetLocale: "zxx-Cyrl-XX"
         });
         var rs2 = r.generatePseudo("zxx-Cyrl-XX", rb);
-        test.equal(rs2.getTarget(), "Тхис ис а тэст6543210");
+        test.equal(rs2.getTarget(), "[Тхис ис а тэст6543210]");
         test.done();
     },
     testJavaScriptPseudoLocalization4: function(test) {
@@ -1160,7 +1160,7 @@ module.exports.javascriptfile = {
             targetLocale: "zxx-Hebr-XX"
         });
         var rs2 = r.generatePseudo("zxx-Hebr-XX", rb);
-        test.equal(rs2.getTarget(), 'טהִס ִס ַ טֶסט6543210');
+        test.equal(rs2.getTarget(), '[טהִס ִס ַ טֶסט6543210]');
         test.done();
     },
     testJavaScriptFileTest4: function(test) {
