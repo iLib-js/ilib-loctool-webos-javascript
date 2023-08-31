@@ -4,6 +4,10 @@ ilib-webos-loctool-javascript is a plugin for the loctool that
 allows it to read and localize javascript files. This plugins is optimized for webOS platform.
 
 ## Release Notes
+v1.10.1
+* Updated dependencies. (loctool: 2.23.1)
+* Update to be included `npm-shrinkwrap.json` in the published files.
+
 v1.10.0
 * Updated dependencies. (loctool: 2.22.0)
 * Added ability to disable pseudo-localization in plugin when a project's pseudo-localization is enabled.
