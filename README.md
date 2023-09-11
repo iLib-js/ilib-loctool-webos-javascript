@@ -3,6 +3,24 @@
 ilib-webos-loctool-javascript is a plugin for the loctool that
 allows it to read and localize javascript files. This plugins is optimized for webOS platform.
 
+### JavaScript file type
+This plugin expects to be used [iLib](https://github.com/iLib-js/iLib) library directory or [Enact](https://enactjs.com/) framework to internationalize your JavaScript code.
+
+#### example
+This plugin extracts string usages used in the examples below by considering them as strings that need to be translated.
+* [getString](https://ilib-js.github.io/iLib/docs/api/jsdoc/ResBundle.html#getString) from iLib
+* [$L](https://enactjs.com/docs/modules/i18n/$L/) from Enact framework
+```javascript
+getString("Hello");
+getString("Channel", "speaker_channel");
+$L("Hello");
+$L({value: "Channel", key: "speaker_channel"});
+```
+
+#### Sample
+The simple sample is provided in [ilib-loctool-samples](https://github.com/iLib-js/ilib-loctool-samples) repository.
+Please see the [webos-js](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-js) sample to see how the javascript file type is localized.
+
 ## Release Notes
 v1.10.4
 * Updated loctool dependency information to be written both `peerDependencies` and `devDependencies`.
@@ -132,15 +150,5 @@ v1.1.0
 
 Copyright (c) 2019-2023, JEDLSoft
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-
-See the License for the specific language governing permissions and
-limitations under the License.
+This plugin is license under Apache2. See the [LICENSE](./LICENSE)
+file for more details.
