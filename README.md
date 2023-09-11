@@ -17,7 +17,7 @@ $L({value: "Channel", key: "speaker_channel"});
 
 #### Sample
 The simple sample is provided in [ilib-loctool-samples](https://github.com/iLib-js/ilib-loctool-samples) repository.
-Please see the [webos-js](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-js) sample to see how the javascript file type is localized.
+Please check the [webos-js](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-js) sample to see how the JavaScript file type is localized.
 
 ## Release Notes
 ### v1.10.4
