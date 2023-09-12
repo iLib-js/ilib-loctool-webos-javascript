@@ -19,6 +19,13 @@ $L({value: "Channel", key: "speaker_channel"});
 The simple sample is provided in [ilib-loctool-samples](https://github.com/iLib-js/ilib-loctool-samples) repository.
 Please check the [webos-js](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-js) sample to see how the JavaScript file type is localized.
 
+## License
+
+Copyright (c) 2019-2023, JEDLSoft
+
+This plugin is license under Apache2. See the [LICENSE](./LICENSE)
+file for more details.
+
 ## Release Notes
 ### v1.10.4
 * Updated loctool dependency information to be written both `peerDependencies` and `devDependencies`.
@@ -141,11 +148,3 @@ Please check the [webos-js](https://github.com/iLib-js/ilib-loctool-samples/tree
 ### v1.1.0
 * Supported xliff 2.0 style
    * Update code to return translation data properly with xliff 2.0 format
-
-
-## License
-
-Copyright (c) 2019-2023, JEDLSoft
-
-This plugin is license under Apache2. See the [LICENSE](./LICENSE)
-file for more details.
