@@ -1,7 +1,7 @@
 # ilib-loctool-webos-javascript
 
 ilib-webos-loctool-javascript is a plugin for the loctool that
-allows it to read and localize javascript files. This plugin is optimized for webOS platform.
+allows it to read and localize JavaScript files. This plugin is optimized for the webOS platform.
 
 ### JavaScript FileType
 This plugin expects to be used [iLib](https://github.com/iLib-js/iLib) library directory or [Enact](https://enactjs.com/) framework to internationalize your JavaScript code.   
