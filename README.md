@@ -27,6 +27,9 @@ This plugin is license under Apache2. See the [LICENSE](./LICENSE)
 file for more details.
 
 ## Release Notes
+### v1.10.5
+* Removed `npm-shrinkwrap.json`. It takes a bigger memory size than I expected on webOS. so I decided not to maintain the file here.
+
 ### v1.10.4
 * Updated loctool dependency information to be written both `peerDependencies` and `devDependencies`.
 
@@ -38,7 +41,7 @@ file for more details.
 
 ### v1.10.1
 * Updated dependencies. (loctool: 2.23.1)
-* Update to be included `npm-shrinkwrap.json` in the published files.
+* Updated to be included `npm-shrinkwrap.json` in the published files.
 
 ### v1.10.0
 * Updated dependencies. (loctool: 2.22.0)
