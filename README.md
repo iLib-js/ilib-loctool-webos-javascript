@@ -41,7 +41,7 @@ file for more details.
 
 ### v1.10.1
 * Updated dependencies. (loctool: 2.23.1)
-* Update to be included `npm-shrinkwrap.json` in the published files.
+* Updated to be included `npm-shrinkwrap.json` in the published files.
 
 ### v1.10.0
 * Updated dependencies. (loctool: 2.22.0)
