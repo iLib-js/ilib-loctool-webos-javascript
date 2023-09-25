@@ -1,7 +1,7 @@
 /*
- * testJavaScriptFileType.js - test the JavaScript file type handler object.
+ * JavaScriptFileType.test.js - test the JavaScript file type handler object.
  *
- * Copyright (c) 2019-2021, JEDLSoft
+ * Copyright © 2019-2021, 2023 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 if (!JavaScriptFileType) {
     var JavaScriptFileType = require("../JavaScriptFileType.js");
     var CustomProject =  require("loctool/lib/CustomProject.js");
 }
-
 var p = new CustomProject({
     id: "app",
     plugins: ["../."],
@@ -29,45 +27,28 @@ var p = new CustomProject({
 }, "./testfiles", {
     locales:["en-GB"]
 });
-
-module.exports.javascriptfiletype = {
-    testJavaScriptFileTypeConstructor: function(test) {
-        test.expect(1);
-
+describe("javascriptfiletype", function() {
+    test("JavaScriptFileTypeConstructor", function() {
+        expect.assertions(1);
         var htf = new JavaScriptFileType(p);
-
-        test.ok(htf);
-
-        test.done();
-    },
-    testJavaScriptFileTypeHandlesJSTrue: function(test) {
-        test.expect(2);
-
+        expect(htf).toBeTruthy();
+    });
+    test("JavaScriptFileTypeHandlesJSTrue", function() {
+        expect.assertions(2);
         var htf = new JavaScriptFileType(p);
-        test.ok(htf);
-
-        test.ok(htf.handles("foo.js"));
-
-        test.done();
-    },
-    testJavaScriptFileTypeHandlesJSXTrue: function(test) {
-        test.expect(2);
-
+        expect(htf).toBeTruthy();
+        expect(htf.handles("foo.js")).toBeTruthy();
+    });
+    test("JavaScriptFileTypeHandlesJSXTrue", function() {
+        expect.assertions(2);
         var htf = new JavaScriptFileType(p);
-        test.ok(htf);
-
-        test.ok(htf.handles("foo.jsx"));
-
-        test.done();
-    },
-    testJavaScriptFileTypeHandlesJSFalseClose: function(test) {
-        test.expect(2);
-
+        expect(htf).toBeTruthy();
+        expect(htf.handles("foo.jsx")).toBeTruthy();
+    });
+    test("JavaScriptFileTypeHandlesJSFalseClose", function() {
+        expect.assertions(2);
         var htf = new JavaScriptFileType(p);
-        test.ok(htf);
-
-        test.ok(!htf.handles("foojs"));
-
-        test.done();
-    }
-};
+        expect(htf).toBeTruthy();
+        expect(!htf.handles("foojs")).toBeTruthy();
+    });
+});
