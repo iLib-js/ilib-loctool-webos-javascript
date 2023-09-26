@@ -16,12 +16,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 if (!JavaScriptFile) {
     var JavaScriptFile = require("../JavaScriptFile.js");
     var JavaScriptFileType = require("../JavaScriptFileType.js");
     var CustomProject =  require("loctool/lib/CustomProject.js");
     var RegularPseudo =  require("loctool/lib/RegularPseudo.js");
 }
+
 var p = new CustomProject({
     id: "app",
     plugins: ["../."],
@@ -29,24 +31,30 @@ var p = new CustomProject({
 }, "./test/testfiles", {
     locales:["en-GB"]
 });
+
 var jsft = new JavaScriptFileType(p);
+
 describe("javascriptfile", function() {
     test("JavaScriptFileConstructor", function() {
         expect.assertions(1);
+
         var j = new JavaScriptFile({project: p});
         expect(j).toBeTruthy();
     });
     test("JavaScriptFileConstructorParams", function() {
         expect.assertions(1);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: "./testfiles/js/t1.js",
             type: jsft
         });
+
         expect(j).toBeTruthy();
     });
     test("JavaScriptFileConstructorNoFile", function() {
         expect.assertions(1);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
@@ -56,6 +64,7 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileMakeKey", function() {
         expect.assertions(2);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
@@ -66,33 +75,42 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseSimpleGetByKey", function() {
         expect.assertions(5);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('rb.getString("This is a test")');
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBy({
             reskey: "This is a test"
         });
         expect(r).toBeTruthy();
+
         expect(r[0].getSource()).toBe("This is a test");
         expect(r[0].getKey()).toBe("This is a test");
     });
     test("JavaScriptFileParseSimpleGetBySource", function() {
         expect.assertions(5);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('rb.getString("This is a test")');
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("This is a test");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("This is a test");
@@ -100,15 +118,19 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseJSSimpleGetBySource", function() {
         expect.assertions(5);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('rb.getStringJS("This is a test")');
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("This is a test");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("This is a test");
@@ -116,15 +138,19 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseSimpleSingleQuotes", function() {
         expect.assertions(5);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse("$L('This is a test')");
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("This is a test");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("This is a test");
@@ -132,15 +158,19 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseSimpleSingleQuotesByKeyValue1", function() {
         expect.assertions(5);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse("$L({key:'speaker_channel', value:'Channel'})");
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("Channel");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("Channel");
@@ -148,15 +178,19 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseSimpleSingleQuotesByKeyValue2", function() {
         expect.assertions(5);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse("$L({value:'Channel', key:'speaker_channel'})");
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("Channel");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("Channel");
@@ -164,15 +198,19 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseSimpleSingleQuotesByKeyValue3", function() {
         expect.assertions(5);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse("$L({key: 'speaker_channel', value: 'Channel'})");
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("Channel");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("Channel");
@@ -180,15 +218,19 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseSimpleSingleQuotesByKeyValue4", function() {
         expect.assertions(5);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse("$L( { key:  'speaker_channel', value:   'Channel' } )");
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("Channel");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("Channel");
@@ -196,15 +238,19 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseJSSimpleSingleQuotes", function() {
         expect.assertions(5);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse("RB.getStringJS('This is a test')");
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("This is a test");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("This is a test");
@@ -212,15 +258,19 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseMoreComplexSingleQuotes", function() {
         expect.assertions(5);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse("if (subcat == 'Has types') {title = RB.getString('Types of {topic}').format({topic: topic.attribute.name})}");
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("Types of {topic}");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("Types of {topic}");
@@ -228,15 +278,19 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseSimpleIgnoreWhitespace", function() {
         expect.assertions(5);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('   rb.getString  (    \t "This is a test"    );  ');
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("This is a test");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("This is a test");
@@ -244,6 +298,7 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseSimpleIgnoreWhitespace2", function() {
         expect.assertions(5);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: "./js/t1.js",
@@ -253,6 +308,7 @@ describe("javascriptfile", function() {
         j.extract();
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("Go to  'Settings > General > Channels > Channel Tuning & Settings > Transponder Edit' and add one.");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("Go to  'Settings > General > Channels > Channel Tuning & Settings > Transponder Edit' and add one.");
@@ -260,15 +316,19 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseJSCompressWhitespaceInKey", function() {
         expect.assertions(5);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('RB.getStringJS("\t\t This \n \n is \n\t a    test")');
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("\t\t This \n \n is \n\t a    test");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("\t\t This \n \n is \n\t a    test");
@@ -276,29 +336,38 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseSimpleRightSize", function() {
         expect.assertions(4);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         var set = j.getTranslationSet();
         expect(set.size()).toBe(0);
+
         j.parse('RB.getString("This is a test")');
+
         expect(set).toBeTruthy();
+
         expect(set.size()).toBe(1);
     });
     test("JavaScriptFileParseSimpleWithTranslatorComment", function() {
         expect.assertions(6);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('\tRB.getString("This is a test"); // i18n: this is a translator\'s comment\n\tfoo("This is not");');
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("This is a test");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("This is a test");
@@ -307,15 +376,19 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseSingleQuotesWithTranslatorComment", function() {
         expect.assertions(6);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse("\trb.getString('This is a test'); // i18n: this is a translator\'s comment\n\tfoo('This is not');");
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("This is a test");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("This is a test");
@@ -324,20 +397,24 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseSingleQuotesWithEmbeddedSingleQuotes", function() {
         expect.assertions(5);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse(
             '    rb.getString(\'We\\\'ll notify you when {prefix}{last_name} accepts you as a friend!\').format({\n' +
             '        prefix: detail.name_prefix,\n' +
             '        last_name: detail.last_name\n' +
             '    });'
         );
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("We'll notify you when {prefix}{last_name} accepts you as a friend!");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("We'll notify you when {prefix}{last_name} accepts you as a friend!");
@@ -345,20 +422,24 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseSingleQuotesWithEmbeddedDoubleQuotes", function() {
         expect.assertions(5);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse(
             '    rb.getString("We\\"ll notify you when {prefix}{last_name} accepts you as a friend!").format({\n' +
             '        prefix: detail.name_prefix,\n' +
             '        last_name: detail.last_name\n' +
             '    });'
         );
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource('We"ll notify you when {prefix}{last_name} accepts you as a friend!');
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe('We"ll notify you when {prefix}{last_name} accepts you as a friend!');
@@ -366,15 +447,19 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseSimpleWithUniqueIdAndTranslatorComment", function() {
         expect.assertions(6);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('\trb.getString("This is a test", "foobar"); // i18n: this is a translator\'s comment\n\tfoo("This is not");');
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBy({
             reskey: "foobar"
         });
@@ -385,15 +470,19 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseWithKey", function() {
         expect.assertions(5);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('RB.getString("This is a test", "unique_id")');
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBy({
             reskey: "unique_id"
         });
@@ -403,15 +492,19 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseJSWithKey", function() {
         expect.assertions(5);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('RB.getStringJS("This is a test", "unique_id")');
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBy({
             reskey: "unique_id"
         });
@@ -421,15 +514,19 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseWithKeySingleQuotes", function() {
         expect.assertions(5);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse("RB.getString('This is a test', 'unique_id')");
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBy({
             reskey: "unique_id"
         });
@@ -439,15 +536,19 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseJSWithKeySingleQuotes", function() {
         expect.assertions(5);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse("RB.getStringJS('This is a test', 'unique_id')");
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBy({
             reskey: "unique_id"
         });
@@ -457,33 +558,42 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseWithKeyCantGetBySource", function() {
         expect.assertions(3);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('RB.getString("This is a test", "unique_id")');
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("This is a test");
         expect(!r).toBeTruthy();
     });
     test("JavaScriptFileParseMultiple", function() {
         expect.assertions(8);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('RB.getString("This is a test");\n\ta.parse("This is another test.");\n\t\tRB.getString("This is also a test");');
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("This is a test");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("This is a test");
         expect(r.getKey()).toBe("This is a test");
+
         r = set.getBySource("This is also a test");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("This is also a test");
@@ -491,15 +601,19 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseMultipleWithKey", function() {
         expect.assertions(10);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('RB.getString("This is a test", "x");\n\ta.parse("This is another test.");\n\t\tRB.getString("This is a test", "y");');
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBy({
             reskey: "x"
         });
@@ -507,6 +621,7 @@ describe("javascriptfile", function() {
         expect(r[0].getSource()).toBe("This is a test");
         expect(!r[0].getAutoKey()).toBeTruthy();
         expect(r[0].getKey()).toBe("x");
+
         r = set.getBy({
             reskey: "y"
         });
@@ -517,24 +632,31 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseMultipleSameLine", function() {
         expect.assertions(12);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('RB.getString("This is a test"), RB.getString("This is a second test"), RB.getString("This is a third test")');
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         expect(set.size()).toBe(3);
+
         var r = set.getBySource("This is a test");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("This is a test");
         expect(r.getKey()).toBe("This is a test");
+
         r = set.getBySource("This is a second test");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("This is a second test");
         expect(r.getKey()).toBe("This is a second test");
+
         r = set.getBySource("This is a third test");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("This is a third test");
@@ -542,20 +664,25 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseMultipleWithComments", function() {
         expect.assertions(10);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('RB.getString("This is a test");   // i18n: foo\n\ta.parse("This is another test.");\n\t\tRB.getString("This is also a test");\t// i18n: bar');
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("This is a test");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("This is a test");
         expect(r.getKey()).toBe("This is a test");
         expect(r.getComment()).toBe("foo");
+
         r = set.getBySource("This is also a test");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("This is also a test");
@@ -564,15 +691,19 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseMultipleWithUniqueIdsAndComments", function() {
         expect.assertions(10);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('RB.getString("This is a test", "asdf");   // i18n: foo\n\ta.parse("This is another test.");\n\t\tRB.getString("This is also a test", "kdkdkd");\t// i18n: bar');
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBy({
             reskey: "asdf"
         });
@@ -580,6 +711,7 @@ describe("javascriptfile", function() {
         expect(r[0].getSource()).toBe("This is a test");
         expect(r[0].getKey()).toBe("asdf");
         expect(r[0].getComment()).toBe("foo");
+
         r = set.getBy({
             reskey: "kdkdkd"
         });
@@ -590,36 +722,46 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseWithDups", function() {
         expect.assertions(6);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('RB.getString("This is a test");\n\ta.parse("This is another test.");\n\t\tRB.getString("This is a test");');
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("This is a test");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("This is a test");
         expect(r.getKey()).toBe("This is a test");
+
         expect(set.size()).toBe(1);
     });
     test("JavaScriptFileParseDupsDifferingByKeyOnly", function() {
         expect.assertions(8);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('RB.getString("This is a test");\n\ta.parse("This is another test.");\n\t\tRB.getString("This is a test", "unique_id");');
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("This is a test");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("This is a test");
         expect(r.getKey()).toBe("This is a test");
+
         r = set.getBy({
             reskey: "unique_id"
         });
@@ -629,84 +771,105 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseBogusConcatenation", function() {
         expect.assertions(2);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('RB.getString("This is a test" + " and this isnt");');
+
         var set = j.getTranslationSet();
+
         expect(set.size()).toBe(0);
     });
     test("JavaScriptFileParseBogusConcatenation2", function() {
         expect.assertions(2);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('RB.getString("This is a test" + foobar);');
+
         var set = j.getTranslationSet();
         expect(set.size()).toBe(0);
     });
     test("JavaScriptFileParseBogusNonStringParam", function() {
         expect.assertions(2);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('RB.getString(foobar);');
+
         var set = j.getTranslationSet();
         expect(set.size()).toBe(0);
     });
     test("JavaScriptFileParseEmptyParams", function() {
         expect.assertions(2);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('RB.getString();');
+
         var set = j.getTranslationSet();
         expect(set.size()).toBe(0);
     });
     test("JavaScriptFileParseWholeWord", function() {
         expect.assertions(2);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('EPIRB.getString("This is a test");');
+
         var set = j.getTranslationSet();
         expect(set.size()).toBe(1);
     });
     test("JavaScriptFileParseSubobject", function() {
         expect.assertions(2);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('App.RB.getString("This is a test");');
+
         var set = j.getTranslationSet();
         expect(set.size()).toBe(1);
     });
     test("JavaScriptFileParsePunctuationBeforeRB", function() {
         expect.assertions(9);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse(
             "        <%\n" +
             "        var listsOver4 = false;\n" +
@@ -716,13 +879,17 @@ describe("javascriptfile", function() {
             "            var list = topic.attribute.kb_attribute_relationships[subcat] || [];\n" +
             "            if (list.length > 0) {\n" +
             "        %>\n");
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         expect(set.size()).toBe(2);
+
         var r = set.getBySource("Personal");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("Personal");
         expect(r.getKey()).toBe("Personal");
+
         r = set.getBySource("Smart Watches");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("Smart Watches");
@@ -730,33 +897,41 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileParseEmptyString", function() {
         expect.assertions(3);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse("var subcats = [RB.getStringJS(''), RB.getString(''), RB.getStringJS('', 'foo'), RB.getStringJS('foo', '')];\n");
+
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         expect(set.size()).toBe(0);
     });
     test("JavaScriptFileExtractFile", function() {
         expect.assertions(8);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: "./js/t1.js",
             type: jsft
         });
         expect(j).toBeTruthy();
+
         // should read the file
         j.extract();
         var set = j.getTranslationSet();
         expect(set.size()).toBe(9);
+
         var r = set.getBySource("This is a test");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("This is a test");
         expect(r.getKey()).toBe("This is a test");
+
         var r = set.getBy({
             reskey: "id1"
         });
@@ -766,29 +941,37 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileExtractUndefinedFile", function() {
         expect.assertions(2);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         // should attempt to read the file and not fail
         j.extract();
+
         var set = j.getTranslationSet();
         expect(set.size()).toBe(0);
     });
     test("JavaScriptFileTest2", function() {
         expect.assertions(5);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: "./js/t2.js",
             type: jsft
         });
         expect(j).toBeTruthy();
+
         // should attempt to read the file and not fail
         j.extract();
+
         var set = j.getTranslationSet();
         expect(set.size()).toBe(11);
+
+
         var r = set.getBySource("Track");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("Track");
@@ -796,17 +979,21 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptPseudoLocalization1", function() {
         expect.assertions(4);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('rb.getStringJS("This is a test")');
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("This is a test");
         expect(r).toBeTruthy();
+
         var rb = new RegularPseudo({
             type: "javascript"
         });
@@ -815,17 +1002,21 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptPseudoLocalization2", function() {
         expect.assertions(4);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('rb.getStringJS("This is a test")');
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("This is a test");
         expect(r).toBeTruthy();
+
         var rb = new RegularPseudo({
             type: "javascript",
             targetLocale: "zxx-Hans-XX"
@@ -835,17 +1026,21 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptPseudoLocalization3", function() {
         expect.assertions(4);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('rb.getStringJS("This is a test")');
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("This is a test");
         expect(r).toBeTruthy();
+
         var rb = new RegularPseudo({
             type: "javascript",
             targetLocale: "zxx-Cyrl-XX"
@@ -855,17 +1050,21 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptPseudoLocalization4", function() {
         expect.assertions(4);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('rb.getStringJS("This is a test")');
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("This is a test");
         expect(r).toBeTruthy();
+
         var rb = new RegularPseudo({
             type: "javascript",
             targetLocale: "zxx-Hebr-XX"
@@ -875,40 +1074,50 @@ describe("javascriptfile", function() {
     });
     test("JavaScriptFileTest4", function() {
         expect.assertions(2);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: "./js/t4.js",
             type: jsft
         });
         expect(j).toBeTruthy();
+
         // should attempt to read the file and not fail
         j.extract();
+
         var set = j.getTranslationSet();
         expect(set.size()).toBe(4);
     });
     test("JavaScriptFileNotParseComment", function() {
         expect.assertions(2);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('// $L("This is a test"); // i18n: this is a translator\'s comment\n\tfoo("This is not");');
+
         var set = j.getTranslationSet();
         expect(set.size()).toBe(0);
     });
     test("JavaScriptFileNotremotei18nComment", function() {
         expect.assertions(10);
+
         var j = new JavaScriptFile({
             project: p,
             pathName: undefined,
             type: jsft
         });
         expect(j).toBeTruthy();
+
         j.parse('$L("This is a test"); // i18n: this is a translator\'s comment\n\t$L("This is a test2");foo("This is not");');
+
         var set = j.getTranslationSet();
         expect(set.size()).toBe(2);
+
         r = set.getBy({
             reskey: "This is a test"
         });
@@ -916,6 +1125,7 @@ describe("javascriptfile", function() {
         expect(r[0].getSource()).toBe("This is a test");
         expect(r[0].getKey()).toBe("This is a test");
         expect(r[0].getComment()).toBe("this is a translator\'s comment");
+
         r = set.getBy({
             reskey: "This is a test2"
         });
