@@ -16,12 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 if (!JavaScriptFileType) {
     var JavaScriptFileType = require("../JavaScriptFileType.js");
     var CustomProject =  require("loctool/lib/CustomProject.js");
 }
-
 var p = new CustomProject({
     id: "app",
     plugins: ["../."],
@@ -29,37 +27,28 @@ var p = new CustomProject({
 }, "./testfiles", {
     locales:["en-GB"]
 });
-
 describe("javascriptfiletype", function() {
     test("JavaScriptFileTypeConstructor", function() {
         expect.assertions(1);
-
         var htf = new JavaScriptFileType(p);
-
         expect(htf).toBeTruthy();
     });
     test("JavaScriptFileTypeHandlesJSTrue", function() {
         expect.assertions(2);
-
         var htf = new JavaScriptFileType(p);
         expect(htf).toBeTruthy();
-
         expect(htf.handles("foo.js")).toBeTruthy();
     });
     test("JavaScriptFileTypeHandlesJSXTrue", function() {
         expect.assertions(2);
-
         var htf = new JavaScriptFileType(p);
         expect(htf).toBeTruthy();
-
         expect(htf.handles("foo.jsx")).toBeTruthy();
     });
     test("JavaScriptFileTypeHandlesJSFalseClose", function() {
         expect.assertions(2);
-
         var htf = new JavaScriptFileType(p);
         expect(htf).toBeTruthy();
-
         expect(!htf.handles("foojs")).toBeTruthy();
     });
 });
