@@ -27,9 +27,6 @@ This plugin is license under Apache2. See the [LICENSE](./LICENSE)
 file for more details.
 
 ## Release Notes
-### v1.10.6
-* Converted all the unit tests from `nodeunit` to `jest`.
-
 ### v1.10.5
 * Removed `npm-shrinkwrap.json`. It takes a bigger memory size than I expected on webOS. so I decided not to maintain the file here.
 

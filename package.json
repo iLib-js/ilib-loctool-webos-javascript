@@ -1,6 +1,6 @@
 {
     "name": "ilib-loctool-webos-javascript",
-    "version": "1.10.6",
+    "version": "1.10.5",
     "main": "./JavaScriptFileType.js",
     "description": "A loctool plugin that knows how to process JS files",
     "license": "Apache-2.0",
@@ -39,9 +39,8 @@
     },
     "scripts": {
         "dist": "npm pack",
-        "test": "jest",
-        "test:watch": "jest --watch",
-        "debug": "node --inspect-brk node_modules/.bin/jest -i",
+        "test": "node test/testSuite.js",
+        "debug": "node --inspect-brk test/testSuite.js",
         "clean": "git clean -f -d *"
     },
     "engines": {
@@ -54,8 +53,8 @@
         "loctool": "2.23.1"
     },
     "devDependencies": {
+        "loctool": "2.23.1",
         "assertextras": "^1.1.0",
-        "jest": "^29.7.0",
-        "loctool": "2.23.1"
+        "nodeunit": "^0.11.3"
     }
 }
