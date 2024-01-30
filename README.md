@@ -29,6 +29,7 @@ file for more details.
 ## Release Notes
 ### v1.10.6
 * Converted all the unit tests from `nodeunit` to `jest`.
+* Modified to use the same variable name as the `ilib-loctool-webos-json-resource` package name in code.
 
 ### v1.10.5
 * Removed `npm-shrinkwrap.json`. It takes a bigger memory size than I expected on webOS. so I decided not to maintain the file here.
