@@ -28,6 +28,7 @@ file for more details.
 
 ## Release Notes
 ### v1.10.6
+* Updated dependencies. (loctool: 2.24.0)
 * Converted all the unit tests from `nodeunit` to `jest`.
 * Modified to use the same variable name as the `ilib-loctool-webos-json-resource` package name in code.
 
