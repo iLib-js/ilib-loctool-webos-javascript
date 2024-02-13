@@ -20,7 +20,7 @@
 var fs = require("fs");
 var path = require("path");
 var JavaScriptFile = require("./JavaScriptFile.js");
-var JavaScriptResourceFileType = require("ilib-loctool-webos-json-resource");
+var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
 var Utils = require("loctool/lib/utils.js")
 var ResourceString = require("loctool/lib/ResourceString.js");
 
@@ -424,7 +424,7 @@ JavaScriptFileType.prototype.getResourceTypes = function() {
  * need resource files
  */
 JavaScriptFileType.prototype.getResourceFileType = function() {
-    return JavaScriptResourceFileType;
+    return JsonResourceFileType;
 };
 
 /**

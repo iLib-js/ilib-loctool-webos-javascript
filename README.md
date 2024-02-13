@@ -21,12 +21,17 @@ Please check the [webos-js](https://github.com/iLib-js/ilib-loctool-samples/tree
 
 ## License
 
-Copyright (c) 2019-2023, JEDLSoft
+Copyright (c) 2019-2024, JEDLSoft
 
 This plugin is license under Apache2. See the [LICENSE](./LICENSE)
 file for more details.
 
 ## Release Notes
+### v1.10.6
+* Updated dependencies. (loctool: 2.24.0)
+* Converted all the unit tests from `nodeunit` to `jest`.
+* Modified to use the same variable name as the `ilib-loctool-webos-json-resource` package name in code.
+
 ### v1.10.5
 * Removed `npm-shrinkwrap.json`. It takes a bigger memory size than I expected on webOS. so I decided not to maintain the file here.
 
